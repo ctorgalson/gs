@@ -1,9 +1,4 @@
-module.exports = async function(eleventyConfig) {
-  // Plugins
-  const { HtmlBasePlugin } = await import("@11ty/eleventy");
-
-  eleventyConfig.addPlugin(HtmlBasePlugin);
-
+module.exports = function(eleventyConfig) {
   // Copy static assets
   eleventyConfig.addPassthroughCopy("src/assets");
 
@@ -31,12 +26,9 @@ module.exports = async function(eleventyConfig) {
       includes: "_includes",
       layouts: "_layouts"
     },
-    templateFormats: ["njk", "md", "html"],
+    htmlTemplateEngine: "njk",
     markdownTemplateEngine: "njk",
-    htmlTemplateEngine: "njk"
+    pathPrefix: "/gs/",
+    templateFormats: ["njk", "md", "html"],
   };
-};
-
-module.exports.config = {
-  pathPrefix: "/gs/"
 };
