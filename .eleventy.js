@@ -1,4 +1,9 @@
-module.exports = function(eleventyConfig) {
+module.exports = async function(eleventyConfig) {
+  // Plugins
+  const { HtmlBasePlugin } = await import("@11ty/eleventy");
+
+  eleventyConfig.addPlugin(HtmlBasePlugin);
+
   // Copy static assets
   eleventyConfig.addPassthroughCopy("src/assets");
 
@@ -30,4 +35,8 @@ module.exports = function(eleventyConfig) {
     markdownTemplateEngine: "njk",
     htmlTemplateEngine: "njk"
   };
+};
+
+module.exports.config = {
+  pathPrefix: "/gs/"
 };
