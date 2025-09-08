@@ -1,0 +1,57 @@
+body {
+  max-width: 64rem;
+}
+
+fieldset > p:last-child {
+  margin-block-end: 0;
+  max-width: 60ch;
+}
+
+.gs-html .gs {
+  background: azure;
+
+  & > * {
+    align-items: center;
+    background: pink;
+    display: flex;
+    justify-content: center;
+    padding-block: 0.5rem;
+    padding-inline: 0.5rem;
+  }
+
+  & + .gs {
+    margin-block-start: var(--gs-grid-row-gap, 1lh);
+  }
+}
+
+.gs-input :where(.gs-column-gap, .gs-columns, .gs-row-gap) > div {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-column-gap: 1.5rem;
+  grid-row-gap: 1lh;
+}
+
+.gs-output {
+  border-radius: 6px;
+
+  & > pre {
+    max-height: 30rem;
+  }
+}
+
+.gs-html {
+  max-height: 30rem;
+  overflow-y: scroll;
+}
+
+@media screen and (min-width: 48rem) {
+  .gs-input :where(.gs-column-gap, .gs-columns, .gs-row-gap) > div {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media screen and (min-width: 60rem) {
+  .gs-input :where(.gs-column-gap, .gs-columns, .gs-row-gap) > div {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}

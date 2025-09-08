@@ -1,0 +1,19 @@
+{
+  "name": "grid-generator",
+  "version": "1.0.0",
+  "description": "CSS Grid Generator with 11ty",
+  "scripts": {
+    "dev": "eleventy --serve",
+    "build": "eleventy",
+    "clean": "rm -rf _site"
+  },
+  "devDependencies": {
+    "@11ty/eleventy": "^2.0.1",
+    "@11ty/eleventy-plugin-syntaxhighlight": "^5.0.2",
+    "@highlightjs/cdn-assets": "^11.11.1",
+    "nunjucks": "^3.2.4",
+    "prettier": "^3.6.2",
+    "prismjs": "^1.30.0",
+    "water.css": "^2.1.1"
+  }
+}

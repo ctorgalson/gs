@@ -1,0 +1,130 @@
+<form class="gs-form">
+  <div>
+    <fieldset class="gs-columns">
+      <legend>Columns</legend>
+
+      <div>
+        <div>
+          <label for="columns-mobile">Grid columns mobile (read-only)</label>
+          <input
+            id="columnsmobile"
+            name="columnsmobile"
+            readonly
+            size="10"
+            type="number"
+            value="{{ grid_columns_mobile }}"
+          >
+        </div>
+
+        <div>
+          <label for="columns-tablet">Grid columns tablet (read-only)</label>
+          <input
+            id="columnstablet"
+            name="columnstablet"
+            readonly
+            size="10"
+            type="number"
+            value="{{ grid_columns_tablet }}"
+          >
+        </div>
+
+        <div>
+          <label for="columns">Grid Columns desktop</label>
+          <input
+            id="columnsdesktop"
+            max="120"
+            min="8"
+            name="columnsdesktop"
+            size="10"
+            step="2"
+            type="number"
+            value="{{ grid_columns_desktop }}"
+          >
+        </div>
+      </div>
+      <p><small>The system assumes mobile sizes will use 1 column, and tablet will use 2 columns. Desktop sizes should use an even value, typically 12, 16.</small></p>
+    </fieldset>
+
+    <fieldset class="gs-column-gap">
+      <legend>Column gap</legend>
+
+      <div>
+        <div>
+          <label for="columngapmobile">Column gap (mobile)</label>
+          <input
+            id="columngapmobile"
+            name="columngapmobile"
+            size="26"
+            type="text"
+            value="{{ grid_column_gap_mobile }}"
+          >
+        </div>
+
+        <div>
+          <label for="columngaptablet">Column gap (tablet)</label>
+          <input
+            id="columngaptablet"
+            name="columngaptablet"
+            size="26"
+            type="text"
+            value="{{ grid_column_gap_tablet }}"
+          >
+        </div>
+
+        <div>
+          <label for="columngapdesktop">Column gap (desktop)</label>
+          <input
+            id="columngapdesktop"
+            name="columngapdesktop"
+            size="26"
+            type="text"
+            value="{{ grid_column_gap_desktop }}"
+          >
+        </div>
+      </div>
+      <p><small>Use literal numeric values, or variables named to match your design system.</small></p>
+
+    </fieldset>
+
+    <fieldset class="gs-row-gap">
+      <legend>Column gap</legend>
+
+      <div>
+        <div>
+          <label for="rowgapmobile">Row gap (mobile)</label>
+          <input
+            id="rowgapmobile"
+            name="rowgapmobile"
+            size="26"
+            type="text"
+            value="{{ grid_row_gap_desktop }}"
+          >
+        </div>
+
+        <div>
+          <label for="rowgaptablet">Row gap (tablet)</label>
+          <input
+            id="rowgaptablet"
+            name="rowgaptablet"
+            size="26"
+            type="text"
+            value="{{ grid_row_gap_tablet }}"
+          >
+        </div>
+
+        <div>
+          <label for="rowgapdesktop">Row gap (desktop)</label>
+          <input
+            id="rowgapdesktop"
+            name="rowgapdesktop"
+            size="26"
+            type="text"
+            value="{{ grid_row_gap_desktop }}"
+          >
+        </div>
+      </div>
+      <p><small>Use literal numeric values, or variables named to match your design system.</small></p>
+
+    </fieldset>
+  </div>
+</form>
