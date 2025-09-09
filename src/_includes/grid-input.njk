@@ -1,11 +1,40 @@
 <form class="gs-form">
   <div>
+    <fieldset class="gs-breakpoints">
+      <legend>Breakpoints</legend>
+
+      <div>
+        <div>
+          <label for="breakpointtablet">Breakpoint tablet</label>
+          <input
+            id="breakpointtablet"
+            name="breakpointtablet"
+            size="10"
+            type="text"
+            value="{{ grid_breakpoint_tablet }}"
+          >
+        </div>
+
+        <div>
+          <label for="breakpointdesktop">Breakpoint desktop</label>
+          <input
+            id="breakpointdesktop"
+            name="breakpointdesktop"
+            size="10"
+            type="text"
+            value="{{ grid_breakpoint_desktop }}"
+          >
+        </div>
+      </div>
+      <p><small>The system assumes three, roughly mobile, tablet, and desktop. This implies two breakpoints.</small></p>
+    </fieldset>
+
     <fieldset class="gs-columns">
       <legend>Columns</legend>
 
       <div>
         <div>
-          <label for="columns-mobile">Grid columns mobile (read-only)</label>
+          <label for="columnsmobile">Grid columns mobile (read-only)</label>
           <input
             id="columnsmobile"
             name="columnsmobile"
@@ -17,7 +46,7 @@
         </div>
 
         <div>
-          <label for="columns-tablet">Grid columns tablet (read-only)</label>
+          <label for="columnstablet">Grid columns tablet (read-only)</label>
           <input
             id="columnstablet"
             name="columnstablet"
@@ -29,7 +58,7 @@
         </div>
 
         <div>
-          <label for="columns">Grid Columns desktop</label>
+          <label for="columnsdesktop">Grid Columns desktop</label>
           <input
             id="columnsdesktop"
             max="120"
