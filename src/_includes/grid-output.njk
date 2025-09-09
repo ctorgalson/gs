@@ -2,6 +2,8 @@
 
 <template class="gs-css-template">
 {% verbatim %}
+{% set grid_breakpoint_tablet = grid_breakpoint_tablet %}
+{% set grid_breakpoint_desktop = grid_breakpoint_desktop %}
 {%- set grid_columns_mobile = grid_columns_mobile -%}
 {%- set grid_column_gap_mobile = grid_column_gap_mobile -%}
 {%- set grid_row_gap_mobile = grid_row_gap_mobile -%}
@@ -48,7 +50,7 @@
   grid-column: span var(--gs-grid-column-span);
 }
 
-@media screen and (width >= 48rem) {
+@media screen and (width >= {{ grid_breakpoint_tablet }}) {
   .gs {
     --gs-grid-column-gap: {{ grid_column_gap_tablet }};
     --gs-grid-row-gap: {{ grid_row_gap_tablet }};
@@ -56,9 +58,20 @@
     /* Everything has {{ grid_columns_tablet }} columns at tablet sizes. */
     --gs-grid-column-span: calc(var(--gs-grid-columns-actual) / {{ grid_columns_tablet }});
   }
+  /* Align-center cells */
+  .gs__ac {
+    --gs-grid-column-start: calc(1 + (var(--gs-grid-columns-actual) - var(--gs-grid-column-span)) / 2);
+  }
+  /* Align-end cells */
+  .gs__ae {
+    --gs-grid-column-start: calc(1 + var(--gs-grid-columns-actual) - var(--gs-grid-column-span));
+  }
+  .gs__ac, .gs__ae {
+    grid-column: var(--gs-grid-column-start) / span var(--gs-grid-column-span);
+  }
 }
 
-@media screen and (width >= 60rem) {
+@media screen and (width >= {{ grid_breakpoint_desktop }}) {
   .gs {
     --gs-grid-column-gap: {{ grid_column_gap_desktop }};
     --gs-grid-row-gap: {{ grid_row_gap_desktop }};

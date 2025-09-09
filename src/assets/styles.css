@@ -24,7 +24,7 @@ fieldset > p:last-child {
   }
 }
 
-.gs-input :where(.gs-column-gap, .gs-columns, .gs-row-gap) > div {
+.gs-input :where(.gs-breakpoints, .gs-column-gap, .gs-columns, .gs-row-gap) > div {
   display: grid;
   grid-template-columns: 1fr;
   grid-column-gap: 1.5rem;
@@ -45,13 +45,13 @@ fieldset > p:last-child {
 }
 
 @media screen and (min-width: 48rem) {
-  .gs-input :where(.gs-column-gap, .gs-columns, .gs-row-gap) > div {
-    grid-template-columns: repeat(2, 1fr);
+  .gs-input :where(.gs-breakpoints, .gs-column-gap, .gs-columns, .gs-row-gap) > div {
+    grid-template-columns: auto;
   }
 }
 
 @media screen and (min-width: 60rem) {
-  .gs-input :where(.gs-column-gap, .gs-columns, .gs-row-gap) > div {
+  .gs-input :where(.gs-breakpoints, .gs-column-gap, .gs-columns, .gs-row-gap) > div {
     grid-template-columns: repeat(3, 1fr);
   }
 }

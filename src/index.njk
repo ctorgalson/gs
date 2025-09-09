@@ -2,6 +2,8 @@
 layout: base.njk
 title: CSS Grid Generator
 columns: 12
+grid_breakpoint_tablet: 48rem
+grid_breakpoint_desktop: 60rem
 grid_columns_mobile: 1
 grid_column_gap_mobile: var(--column-gap-mobile, 0.75rem)
 grid_row_gap_mobile: var(--row-gap-mobile, 0.5lh)
@@ -122,6 +124,8 @@ use_prism: true
      */
     function setNunjucksData() {
       data = {
+        grid_breakpoint_tablet: form.breakpointtablet.value,
+        grid_breakpoint_desktop: form.breakpointdesktop.value,
         grid_columns_mobile: form.columnsmobile.value,
         grid_columns_tablet: form.columnstablet.value,
         grid_columns_desktop: form.columnsdesktop.value,
