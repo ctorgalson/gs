@@ -1,0 +1,77 @@
+{%- set equal_column_selector %}
+  :where(
+    {%- for factor in factors -%}
+      {% if loop.index != 1 %}, {% endif -%}.gs--ec{{ factor }}
+    {%- endfor -%}
+  ) > *
+{%- endset -%}
+{%- set fraction_column_selectors %}
+  {%- for fraction in range(0, grid_columns_desktop) -%}
+    {% set fraction1 = fraction + 1 %}
+    .gs__cs{{ fraction1 }}{% if fraction1 != grid_columns_desktop %}, {% endif %}
+  {%- endfor -%}
+{%- endset -%}
+/**
+ * BH Grid System
+ *
+ * This file contains a grid system using {{ grid_columns_desktop }} columns.
+ */
+.gs {
+  --gs-grid-column-gap: {{ grid_column_gap_mobile }};
+  --gs-grid-row-gap: {{ grid_row_gap_mobile }};
+  --gs-grid-columns: {{ grid_columns_mobile }};
+  --gs-grid-columns-actual: calc(2 * var(--gs-grid-columns));
+  /* Everything has {{ grid_columns_mobile }} column at mobile sizes. */
+  --gs-grid-column-span: calc(var(--gs-grid-columns-actual) / {{ grid_columns_mobile }});
+
+  display: grid;
+  grid-auto-rows: auto;
+  grid-column-gap: var(--gs-grid-column-gap);
+  grid-row-gap: var(--gs-grid-row-gap);
+  grid-template-columns: repeat(var(--gs-grid-columns-actual), 1fr);
+}
+
+{{ equal_column_selector }}, {{ fraction_column_selectors }} {
+  grid-column: span var(--gs-grid-column-span);
+}
+
+@media screen and (width >= {{ grid_breakpoint_tablet }}) {
+  .gs {
+    --gs-grid-column-gap: {{ grid_column_gap_tablet }};
+    --gs-grid-row-gap: {{ grid_row_gap_tablet }};
+    --gs-grid-columns: {{ grid_columns_tablet }};
+    /* Everything has {{ grid_columns_tablet }} columns at tablet sizes. */
+    --gs-grid-column-span: calc(var(--gs-grid-columns-actual) / {{ grid_columns_tablet }});
+  }
+  /* Align-center cells */
+  .gs__ac {
+    --gs-grid-column-start: calc(1 + (var(--gs-grid-columns-actual) - var(--gs-grid-column-span)) / 2);
+  }
+  /* Align-end cells */
+  .gs__ae {
+    --gs-grid-column-start: calc(1 + var(--gs-grid-columns-actual) - var(--gs-grid-column-span));
+  }
+  .gs__ac, .gs__ae {
+    grid-column: var(--gs-grid-column-start) / span var(--gs-grid-column-span);
+  }
+}
+
+@media screen and (width >= {{ grid_breakpoint_desktop }}) {
+  .gs {
+    --gs-grid-column-gap: {{ grid_column_gap_desktop }};
+    --gs-grid-row-gap: {{ grid_row_gap_desktop }};
+    --gs-grid-columns: {{ grid_columns_desktop }};
+  }
+
+  /* Equal-column cells */
+  {% for factor in factors %}
+    {%- if factor != 1 -%}
+      .gs--ec{{ factor }} > * { --gs-grid-column-span: {{ 2 * grid_columns_desktop / factor }}; }
+    {%- endif %}
+  {% endfor %}
+  /* Column-spanning cells */
+  {% for fraction in range(0, grid_columns_desktop) %}
+    {%- set fraction1 = fraction + 1 -%}
+    .gs__cs{{ fraction1 }} { --gs-grid-column-span: {{ 2 * fraction1 }}; }
+  {% endfor %}
+}

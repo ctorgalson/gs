@@ -41,6 +41,7 @@ use_prism: true
 <script src="{{ '/assets/postcss.js'|url }}"></script>
 <script src="{{ '/assets/prism.js'|url }}" data-manual></script>
 <script src="{{ '/assets/prism-line-numbers.min.js'|url }}"></script>
+<script>window.pathPrefix = "{{ '/'|url }}";</script>
 <script>
   (async function() {
     /**
@@ -75,10 +76,8 @@ use_prism: true
      */
     async function generateCss() {
       try {
-        const clone = cssTemplate.content.cloneNode(true);
-        let unformattedCss;
+        const unformattedCss = nj.render("grid-css.njk.html", data);
 
-        unformattedCss = nj.renderString(clone.textContent, data);
         css = await prettier.format(unformattedCss, {
           parser: "css",
           plugins: prettierPlugins,
@@ -110,10 +109,9 @@ use_prism: true
     /**
      * Generates HTML for demo.
      */
-    function generateHtml() {
+    async function generateHtml() {
       try {
-        const clone = demoTemplate.content.cloneNode(true);
-        html = nj.renderString(clone.firstElementChild.innerHTML, data);
+        html = nj.render("grid-html.njk.html", data);
       } catch (error) {
         console.error('Template rendering error:', error);
       }
@@ -167,11 +165,14 @@ use_prism: true
     const form = document.querySelector(".gs-form");
     const demo = document.querySelector(".gs-demo > .gs-html");
     const demoStyles = document.querySelector(".gs-demo-styles");
-    const demoTemplate = document.querySelector(".gs-demo-template");
     const output = document.querySelector(".gs-output > pre > code");
-    const cssTemplate = document.querySelector(".gs-css-template");
     const downloadLink = document.querySelector(".gs-output a[download]");
-    const nj = new nunjucks.Environment();
+    const nj = new nunjucks.Environment(
+      new nunjucks.WebLoader(`${pathPrefix}assets/templates`),
+      {
+        useCache: true,
+      }
+    );
     let downloadUrl;
     let data;
     let css;
@@ -181,9 +182,7 @@ use_prism: true
       !form
       || !demo
       || !demoStyles
-      || !demoTemplate
       || !output
-      || !cssTemplate
       || !downloadLink
       || !nj
       || !Prism
