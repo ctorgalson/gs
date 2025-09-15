@@ -14,6 +14,8 @@ module.exports = function(eleventyConfig) {
     "node_modules/prismjs/prism.js": "assets/prism.js",
     "node_modules/prismjs/themes/prism-tomorrow.min.css": "assets/prism-tomorrow.min.css",
     "node_modules/water.css/out/water.min.css": "assets/water.min.css",
+    "src/_includes/grid-css.njk.html": "assets/templates/grid-css.njk.html",
+    "src/_includes/grid-html.njk.html": "assets/templates/grid-html.njk.html",
   });
 
   // Watch for changes
