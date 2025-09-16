@@ -1,4 +1,4 @@
-module.exports = function(eleventyConfig) {
+export default async function(eleventyConfig) {
   // Copy static assets
   eleventyConfig.addPassthroughCopy("src/assets");
 
@@ -20,17 +20,16 @@ module.exports = function(eleventyConfig) {
 
   // Watch for changes
   eleventyConfig.addWatchTarget("src/");
+};
 
-  return {
-    dir: {
-      input: "src",
-      output: "_site",
-      includes: "_includes",
-      layouts: "_layouts"
-    },
-    htmlTemplateEngine: "njk",
-    markdownTemplateEngine: "njk",
-    pathPrefix: "/gs/",
-    templateFormats: ["njk", "md", "html"],
-  };
+export const config = {
+  dir: {
+    input: "src",
+    output: "_site",
+    includes: "_includes",
+  },
+  htmlTemplateEngine: "njk",
+  markdownTemplateEngine: "njk",
+  pathPrefix: "/gs/",
+  templateFormats: ["njk", "md", "html"],
 };
