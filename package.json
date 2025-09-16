@@ -7,8 +7,9 @@
     "build": "eleventy",
     "clean": "rm -rf _site"
   },
+  "type": "module",
   "devDependencies": {
-    "@11ty/eleventy": "^2.0.1",
+    "@11ty/eleventy": "^3.1.2",
     "@11ty/eleventy-plugin-syntaxhighlight": "^5.0.2",
     "@highlightjs/cdn-assets": "^11.11.1",
     "nunjucks": "^3.2.4",
