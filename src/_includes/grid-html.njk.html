@@ -1,6 +1,6 @@
 <div class="gs-fragment">
   <h3>Equal-width cells</h3>
-  {% for factor in factors %}
+  {% for factor in columns_desktop_factors %}
     <div class="gs gs--ec{{ factor }}">
       {%- if factor != 1 -%}
         {% for cell in range(0, factor) %}

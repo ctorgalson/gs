@@ -8,7 +8,7 @@
           <label for="breakpointtablet">Breakpoint tablet</label>
           <input
             id="breakpointtablet"
-            name="breakpointtablet"
+            name="grid_breakpoint_tablet"
             size="10"
             type="text"
             value="{{ grid_breakpoint_tablet }}"
@@ -19,7 +19,7 @@
           <label for="breakpointdesktop">Breakpoint desktop</label>
           <input
             id="breakpointdesktop"
-            name="breakpointdesktop"
+            name="grid_breakpoint_desktop"
             size="10"
             type="text"
             value="{{ grid_breakpoint_desktop }}"
@@ -37,7 +37,7 @@
           <label for="columnsmobile">Grid columns mobile (read-only)</label>
           <input
             id="columnsmobile"
-            name="columnsmobile"
+            name="grid_columns_mobile"
             readonly
             size="10"
             type="number"
@@ -49,7 +49,7 @@
           <label for="columnstablet">Grid columns tablet (read-only)</label>
           <input
             id="columnstablet"
-            name="columnstablet"
+            name="grid_columns_tablet"
             readonly
             size="10"
             type="number"
@@ -63,7 +63,7 @@
             id="columnsdesktop"
             max="120"
             min="8"
-            name="columnsdesktop"
+            name="grid_columns_desktop"
             size="10"
             step="2"
             type="number"
@@ -82,7 +82,7 @@
           <label for="columngapmobile">Column gap (mobile)</label>
           <input
             id="columngapmobile"
-            name="columngapmobile"
+            name="grid_column_gap_mobile"
             size="26"
             type="text"
             value="{{ grid_column_gap_mobile }}"
@@ -93,7 +93,7 @@
           <label for="columngaptablet">Column gap (tablet)</label>
           <input
             id="columngaptablet"
-            name="columngaptablet"
+            name="grid_column_gap_tablet"
             size="26"
             type="text"
             value="{{ grid_column_gap_tablet }}"
@@ -104,7 +104,7 @@
           <label for="columngapdesktop">Column gap (desktop)</label>
           <input
             id="columngapdesktop"
-            name="columngapdesktop"
+            name="grid_column_gap_desktop"
             size="26"
             type="text"
             value="{{ grid_column_gap_desktop }}"
@@ -123,7 +123,7 @@
           <label for="rowgapmobile">Row gap (mobile)</label>
           <input
             id="rowgapmobile"
-            name="rowgapmobile"
+            name="grid_row_gap_mobile"
             size="26"
             type="text"
             value="{{ grid_row_gap_desktop }}"
@@ -134,7 +134,7 @@
           <label for="rowgaptablet">Row gap (tablet)</label>
           <input
             id="rowgaptablet"
-            name="rowgaptablet"
+            name="grid_row_gap_tablet"
             size="26"
             type="text"
             value="{{ grid_row_gap_tablet }}"
@@ -145,7 +145,7 @@
           <label for="rowgapdesktop">Row gap (desktop)</label>
           <input
             id="rowgapdesktop"
-            name="rowgapdesktop"
+            name="grid_row_gap_desktop"
             size="26"
             type="text"
             value="{{ grid_row_gap_desktop }}"
@@ -153,6 +153,13 @@
         </div>
       </div>
       <p><small>Use literal numeric values, or variables named to match your design system.</small></p>
+
+      <input
+        id="columnsdesktopfactors"
+        name="grid_columns_desktop_factors"
+        type="hidden"
+        value="{{ grid_columns_desktop_factors }}"
+      >
 
     </fieldset>
   </div>

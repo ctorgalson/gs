@@ -11,6 +11,7 @@ grid_columns_tablet: 2
 grid_column_gap_tablet: var(--column-gap-tablet, 1.125rem)
 grid_row_gap_tablet: var(--row-gap-tablet, 0.75lh)
 grid_columns_desktop: 12
+grid_columns_desktop_factors: [2, 3, 4, 6, 12]
 grid_column_gap_desktop: var(--column-gap-desktop, 1.5rem)
 grid_row_gap_desktop: var(--row-gap-desktop, 1lh)
 use_prism: true
@@ -43,6 +44,63 @@ use_prism: true
 <script src="{{ '/assets/prism-line-numbers.min.js'|url }}"></script>
 <script>window.pathPrefix = "{{ '/'|url }}";</script>
 <script>
+  /**
+   *
+   */
+  class FormState extends FormData {
+    /**
+     *
+     */
+    constructor(form, submitter, dependentFields = {}) {
+      super();
+      this.form = form;
+      this.dependentFields = dependentFields;
+
+      this.#init();
+
+      this.form.addEventListener("change", this.updateData);
+    }
+
+    /**
+     *
+     */
+    #init = () => {
+      Array.from(this.form.elements).forEach((el) => {
+        this.updateData(el, true);
+      });
+    };
+
+    /**
+     *
+     */
+    dump = () => Object.fromEntries(this);
+
+    /**
+     *
+     */
+    updateData = (target, init = false) => {
+      const field = target instanceof Event ? target.target : target;
+      const { name, value } = field;
+
+      // Re: dependentFields. These never satisfy the conditions to be able to
+      // use this.set(name, value). We'd expect them to be hidden in most cases
+      // anyhow.
+      //
+      // We don't worry about running this.get(field) for the callback arg
+      // because we don't do dependentFields computation on init, and after
+      // that, the object only gets updated one field at a time (i.e. whatever
+      // value 'field' has is the right one, because IT did not change).
+      if (name) {
+        if (this.dependentFields.hasOwnProperty(name) && !init) {
+          const [callback, field] = this.dependentFields[name];
+          this.set(name, callback(this.get(field)));
+        } else {
+          this.set(name, value);
+        }
+      }
+    };
+  }
+
   (async function() {
     /**
      * Performs a factorization of the incoming columns value using its root.
@@ -118,26 +176,6 @@ use_prism: true
     }
 
     /**
-     * Generates a data object to be used by Nunjucks template operations.
-     */
-    function setNunjucksData() {
-      data = {
-        grid_breakpoint_tablet: form.breakpointtablet.value,
-        grid_breakpoint_desktop: form.breakpointdesktop.value,
-        grid_columns_mobile: form.columnsmobile.value,
-        grid_columns_tablet: form.columnstablet.value,
-        grid_columns_desktop: form.columnsdesktop.value,
-        grid_column_gap_mobile: form.columngapmobile.value,
-        grid_column_gap_tablet: form.columngaptablet.value,
-        grid_column_gap_desktop: form.columngapdesktop.value,
-        grid_row_gap_mobile: form.rowgapmobile.value,
-        grid_row_gap_tablet: form.rowgaptablet.value,
-        grid_row_gap_desktop: form.rowgapdesktop.value,
-        factors: factorizeColumnCount(form.columnsdesktop.value),
-      };
-    }
-
-    /**
      * Handles form submit.
      *
      * @param {Event} event
@@ -152,7 +190,7 @@ use_prism: true
      * Renders output.
      */
     async function renderOutput() {
-      setNunjucksData();
+      data = formState.dump();
       await generateCss();
       generateHtml();
       output.innerHTML = css;
@@ -177,6 +215,16 @@ use_prism: true
     let data;
     let css;
     let html;
+    const formState = new FormState(
+      form,
+      undefined,
+      {
+        grid_columns_desktop_factors: [
+          factorizeColumnCount,
+          'grid_columns_desktop'
+        ]
+      },
+    );
 
     if (
       !form

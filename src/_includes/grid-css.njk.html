@@ -1,6 +1,6 @@
 {%- set equal_column_selector %}
   :where(
-    {%- for factor in factors -%}
+    {%- for factor in columns_desktop_factors -%}
       {% if loop.index != 1 %}, {% endif -%}.gs--ec{{ factor }}
     {%- endfor -%}
   ) > *
@@ -64,7 +64,7 @@
   }
 
   /* Equal-column cells */
-  {% for factor in factors %}
+  {% for factor in columns_desktop_factors %}
     {%- if factor != 1 -%}
       .gs--ec{{ factor }} > * { --gs-grid-column-span: {{ 2 * grid_columns_desktop / factor }}; }
     {%- endif %}
