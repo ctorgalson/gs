@@ -7,11 +7,10 @@
   <link rel="stylesheet" href="{{ '/assets/water.min.css'|url }}">
   <link rel="stylesheet" href="{{ '/assets/styles.css'|url }}">
   {% if use_prism -%}
-    <link rel="stylesheet" href="{{ '/assets/prism-line-numbers.min.css'|url }}">
     <link rel="stylesheet" href="{{ '/assets/prism-tomorrow.min.css'|url }}">
   {%- endif %}
 </head>
 <body>
-  {{ content | safe }}
+  {{ content|raw }}
 </body>
 </html>
