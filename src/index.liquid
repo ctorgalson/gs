@@ -1,5 +1,5 @@
 ---
-layout: layouts/base.njk
+layout: layouts/base.liquid
 title: CSS Grid Generator
 columns: 12
 grid_breakpoint_tablet: 48rem
@@ -11,7 +11,7 @@ grid_columns_tablet: 2
 grid_column_gap_tablet: var(--column-gap-tablet, 1.125rem)
 grid_row_gap_tablet: var(--row-gap-tablet, 0.75lh)
 grid_columns_desktop: 12
-grid_columns_desktop_factors: [2, 3, 4, 6, 12]
+grid_columns_desktop_factors: "2,3,4,6,12"
 grid_column_gap_desktop: var(--column-gap-desktop, 1.5rem)
 grid_row_gap_desktop: var(--row-gap-desktop, 1lh)
 use_prism: true
@@ -22,27 +22,34 @@ use_prism: true
 
   <section class="gs-input">
     <h2>Grid configuration</h2>
-    {% include "grid-input.njk" %}
+    {% include "grid-input.liquid" %}
   </section>
 
   <section class="gs-output">
     <h2>Generated CSS</h2>
+    {% comment %}Populated by js{% endcomment %}
     <a download href target="_blank">Download this file</a>
-    {% include "grid-output.njk" %}
+    <pre class="gs-output"><code class="language-css"></code></pre>
   </section>
 
   <section class="gs-demo">
     <h2>Grid demo</h2>
-    {% include "grid-demo.njk" %}
+    {% comment %}Populated by js{% endcomment %}
+    <style class="gs-demo-styles"></style>
+    <div class="gs-html"></div>
   </section>
 </main>
 
-<script src="{{ '/assets/nunjucks.min.js'|url }}"></script>
+<script>
+  window.pathPrefix = "{{ '/'|url }}";
+  {% if process.env.NODE_ENV == "development" %}window.development = true;{% endif %}
+</script>
+<script src="{{ '/assets/liquid.browser.min.js'|url }}"></script>
 <script src="{{ '/assets/standalone.js'|url }}"></script>
 <script src="{{ '/assets/postcss.js'|url }}"></script>
 <script src="{{ '/assets/prism.js'|url }}" data-manual></script>
-<script src="{{ '/assets/prism-line-numbers.min.js'|url }}"></script>
-<script>window.pathPrefix = "{{ '/'|url }}";</script>
+<script src="{{ '/assets/urlon.umd.js'|url }}" deferred></script>
+<script src="{{ '/assets/qs.js'|url }}" deferred></script>
 <script>
   /**
    *
@@ -57,7 +64,7 @@ use_prism: true
       this.dependentFields = dependentFields;
       this.initialState = initialState;
       this.#init();
-      this.form.addEventListener("change", this.updateData);
+      this.form.addEventListener("change", this.#updateData);
     }
 
     /**
@@ -66,6 +73,8 @@ use_prism: true
     #init = () => {
 
       // TODO handle this.initialState here.
+      //
+      // THIS WILL BE ENCODED...
       //
       // this.initialState has to be something like, e.g.:
       //
@@ -90,19 +99,16 @@ use_prism: true
       //
       // this.initialState will never be used after this.#init().
       Array.from(this.form.elements).forEach((el) => {
-        this.updateData(el, true);
+        this.initializing = true;
+        this.#updateData(el);
+        this.initializing = false;
       });
     };
 
     /**
      *
      */
-    dump = () => Object.fromEntries(this);
-
-    /**
-     *
-     */
-    updateData = (target, init = false) => {
+    #updateData = (target) => {
       const field = target instanceof Event ? target.target : target;
       const { name, value } = field;
 
@@ -111,11 +117,17 @@ use_prism: true
       // anyhow.
       //
       // We don't worry about running this.get(field) for the callback arg
-      // because we don't do dependentFields computation on init, and after
+      // because we don't do dependentFields computations on init, and after
       // that, the object only gets updated one field at a time (i.e. whatever
       // value 'field' has is the right one, because IT did not change).
       if (name) {
-        if (this.dependentFields.hasOwnProperty(name) && !init) {
+        if (this.dependentFields.hasOwnProperty(name) && !this.initializing) {
+          console.log({
+            name,
+            field,
+            fieldValue: this.get(field),
+            computed: callback(this.get(field)),
+          });
           const [callback, field] = this.dependentFields[name];
           this.set(name, callback(this.get(field)));
         } else {
@@ -123,8 +135,28 @@ use_prism: true
         }
       }
     };
-  }
 
+    /**
+     *
+     *
+     * @see https://github.com/cerebral/urlon
+     */
+    serialize = () => urlon.stringify(this.dump());
+
+    /**
+     *
+     *
+     * @see https://github.com/cerebral/urlon
+     */
+    unserialize = (serialized) => urlon.parse(serialized);
+
+    /**
+     *
+     */
+    dump = () => Object.fromEntries(this);
+  }
+</script>
+<script>
   (async function() {
     /**
      * Performs a factorization of the incoming columns value using its root.
@@ -158,7 +190,7 @@ use_prism: true
      */
     async function generateCss() {
       try {
-        const unformattedCss = nj.render("grid-css.njk.html", data);
+        const unformattedCss = await engine.renderFile("grid-css", data);
 
         css = await prettier.format(unformattedCss, {
           parser: "css",
@@ -193,7 +225,7 @@ use_prism: true
      */
     async function generateHtml() {
       try {
-        html = nj.render("grid-html.njk.html", data);
+        html = await engine.renderFile("grid-html", data);
       } catch (error) {
         console.error('Template rendering error:', error);
       }
@@ -216,7 +248,7 @@ use_prism: true
     async function renderOutput() {
       data = formState.dump();
       await generateCss();
-      generateHtml();
+      await generateHtml();
       output.innerHTML = css;
       demoStyles.textContent = css;
       demo.innerHTML = html;
@@ -229,13 +261,11 @@ use_prism: true
     const demoStyles = document.querySelector(".gs-demo-styles");
     const output = document.querySelector(".gs-output > pre > code");
     const downloadLink = document.querySelector(".gs-output a[download]");
-    const nj = new nunjucks.Environment(
-      new nunjucks.WebLoader(`${pathPrefix}assets/templates`),
-      {
-        autoescape: false,
-        useCache: true,
-      }
-    );
+    const engine = new liquidjs.Liquid({
+      cache: !window?.development,
+      extname: ".liquid.tpl",
+      root: `${pathPrefix}assets/templates/`,
+    });
     let downloadUrl;
     let data;
     let css;
@@ -246,7 +276,7 @@ use_prism: true
       {
         grid_columns_desktop_factors: [
           factorizeColumnCount,
-          'grid_columns_desktop'
+          "grid_columns_desktop"
         ]
       },
     );
@@ -257,7 +287,6 @@ use_prism: true
       || !demoStyles
       || !output
       || !downloadLink
-      || !nj
       || !Prism
     ) {
       return;
