@@ -4,18 +4,15 @@ export default async function(eleventyConfig) {
 
   // Add library assets
   eleventyConfig.addPassthroughCopy({
-    "node_modules/nunjucks/browser/nunjucks.min.js": "assets/nunjucks.min.js",
+    "node_modules/liquidjs/dist/liquid.browser.min.js": "assets/liquid.browser.min.js",
     "node_modules/prettier/plugins/postcss.js": "assets/postcss.js",
     "node_modules/prettier/standalone.js": "assets/standalone.js",
-    "node_modules/prismjs/components/prism-css.min.js": "assets/prism-css-extras.min.js",
     "node_modules/prismjs/components/prism-css.min.js": "assets/prism-css.min.js",
-    "node_modules/prismjs/plugins/line-numbers/prism-line-numbers.min.css": "assets/prism-line-numbers.min.css",
-    "node_modules/prismjs/plugins/line-numbers/prism-line-numbers.min.js": "assets/prism-line-numbers.min.js",
     "node_modules/prismjs/prism.js": "assets/prism.js",
     "node_modules/prismjs/themes/prism-tomorrow.min.css": "assets/prism-tomorrow.min.css",
+    "node_modules/qs/dist/qs.js": "assets/qs.js",
+    "node_modules/urlon/dist/urlon.umd.js": "assets/urlon.umd.js",
     "node_modules/water.css/out/water.min.css": "assets/water.min.css",
-    "src/_includes/grid-css.njk.html": "assets/templates/grid-css.njk.html",
-    "src/_includes/grid-html.njk.html": "assets/templates/grid-html.njk.html",
   });
 
   // Watch for changes
@@ -28,8 +25,8 @@ export const config = {
     output: "_site",
     includes: "_includes",
   },
-  htmlTemplateEngine: "njk",
-  markdownTemplateEngine: "njk",
+  htmlTemplateEngine: "liquid",
+  markdownTemplateEngine: "liquid",
   pathPrefix: "/gs/",
-  templateFormats: ["njk", "md", "html"],
+  templateFormats: ["liquid", "md", "html"],
 };
