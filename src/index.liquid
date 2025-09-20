@@ -20,6 +20,9 @@ use_prism: true
 <main>
   <h1>CSS Grid Generator</h1>
 
+  <div data-component="grid-system"></div>
+  <script type="module" src="{{ '/assets/js/GridSystem.js'|url }}"></script>
+
   <section class="gs-input">
     <h2>Grid configuration</h2>
     {% include "grid-input.liquid" %}
@@ -45,11 +48,8 @@ use_prism: true
   {% if process.env.NODE_ENV == "development" %}window.development = true;{% endif %}
 </script>
 <script src="{{ '/assets/liquid.browser.min.js'|url }}"></script>
-<script src="{{ '/assets/standalone.js'|url }}"></script>
-<script src="{{ '/assets/postcss.js'|url }}"></script>
-<script src="{{ '/assets/prism.js'|url }}" data-manual></script>
+<script src="{{ '/assets/prism.js'|url }}" data-manual deferred></script>
 <script src="{{ '/assets/urlon.umd.js'|url }}" deferred></script>
-<script src="{{ '/assets/qs.js'|url }}" deferred></script>
 <script>
   /**
    *
@@ -190,12 +190,7 @@ use_prism: true
      */
     async function generateCss() {
       try {
-        const unformattedCss = await engine.renderFile("grid-css", data);
-
-        css = await prettier.format(unformattedCss, {
-          parser: "css",
-          plugins: prettierPlugins,
-        });
+        css = await engine.renderFile("grid-css", data);
       } catch (error) {
         console.error('Error generating css:', error);
       }
