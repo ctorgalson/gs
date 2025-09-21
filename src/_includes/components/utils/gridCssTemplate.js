@@ -109,6 +109,10 @@ export function computeCsSelectors(
  *
  * @param {Object} settings
  *   The settings for the grid CSS layout.
+ * @param {string} settings.breakpointDesktop
+ *   A valid CSS breakpoint value.
+ * @param {string} settings.breakpointMobile
+ *   A valid CSS breakpoint value.
  * @param {number} settings.columnsDesktop
  *   The number of columns for desktop view.
  * @param {number} settings.columnsMobile
@@ -128,6 +132,8 @@ export function computeCsSelectors(
  * @returns {string} The generated CSS styles as a string.
  */
 export function gridCssTemplate({
+  breakpointDesktop,
+  breakpointTablet,
   columnsDesktop,
   columnsMobile,
   columnsTablet,
@@ -161,7 +167,7 @@ export function gridCssTemplate({
       grid-column: span var(--${namespace}-grid-column-span);
     }
 
-    @media screen and (width >= 48rem) {
+    @media screen and (${breakpointTablet}) {
       .${namespace} {
         --${namespace}-grid-column-gap: var(--column-gap-tablet, 1.125rem);
         --${namespace}-grid-row-gap: var(--row-gap-tablet, 0.75lh);
@@ -191,7 +197,7 @@ export function gridCssTemplate({
       }
     }
 
-    @media screen and (width >= 60rem) {
+    @media screen and (${breakpointDesktop}) {
       .${namespace} {
         --${namespace}-grid-column-gap: var(--column-gap-desktop, 1.5rem);
         --${namespace}-grid-row-gap: var(--row-gap-desktop, 1lh);

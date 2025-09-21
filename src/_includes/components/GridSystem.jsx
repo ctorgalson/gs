@@ -15,17 +15,27 @@ import {
 import "prismjs/themes/prism-okaidia.min.css?inline";
 
 function GridSystem({
-  initialNamespace = "gs",
-  initialColumnsDesktop = 12,
   columnsMobile = 1,
   columnsTablet = 2,
   columnsMultiplier = 2,
+  defaults = {
+    namespace: "gs",
+    breakpointDesktop: "width >= 60rem",
+    breakpointTablet: "width >= 48rem",
+    columnsDesktop: 12,
+  },
 }) {
   const urlParams = new URLSearchParams(window.location.search);
   const [columnsDesktop, setColumnsDesktop] = useState(
-    urlParams.get("columnsDesktop") || initialColumnsDesktop,
+    urlParams.get("columnsDesktop") || defaults.columnsDesktop,
   );
-  const [namespace, setNamespace] = useState(urlParams.get("namespace") || initialNamespace);
+  const [breakpointDesktop, setBreakpointDesktop] = useState(
+    urlParams.get("breakpointDesktop") || defaults.breakpointDesktop
+  );
+  const [breakpointTablet, setBreakpointTablet] = useState(
+    urlParams.get("breakpointTablet") || defaults.breakpointTablet
+  );
+  const [namespace, setNamespace] = useState(urlParams.get("namespace") || defaults.namespace);
   const [columnsDesktopActual, setColumnsDesktopActual] = useState(undefined);
   const [factors, setFactors] = useState(undefined);
   const [ecSelectors, setEcSelectors] = useState(undefined);
@@ -38,11 +48,13 @@ function GridSystem({
     const params = new URLSearchParams();
     let newUrl;
 
+    params.set("breakpointDesktop", breakpointDesktop);
+    params.set("breakpointTablet", breakpointTablet);
     params.set("columnsDesktop", columnsDesktop);
     params.set("namespace", namespace);
     newUrl = `${window.location.pathname}?${params.toString()}`;
     window.history.replaceState({}, "", newUrl);
-  }, [columnsDesktop, namespace]);
+  }, [breakpointDesktop, breakpointTablet, columnsDesktop, namespace]);
 
   useEffect(() => {
     const factors = factorizeColumnCount(columnsDesktop);
@@ -55,6 +67,8 @@ function GridSystem({
     setCsSelectors(csSelectors);
     setColumnsDesktopActual(columnsDesktopActual);
     setGridCss(gridCssTemplate({
+      breakpointDesktop,
+      breakpointTablet,
       columnsDesktop,
       columnsMobile,
       columnsTablet,
@@ -75,6 +89,10 @@ function GridSystem({
   return (
     <GridSystemContext.Provider
       value={{
+        breakpointDesktop,
+        setBreakpointDesktop,
+        breakpointTablet,
+        setBreakpointTablet,
         columnsDesktop,
         setColumnsDesktop,
         csSelectors,
