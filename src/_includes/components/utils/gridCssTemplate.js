@@ -18,7 +18,12 @@ import dedent from "dedent";
  * @returns {string}
  *   A formatted string of selectors, separated by commas and new lines based on the specified limits.
  */
-function selectorList(selectors, maxSelectorsPerLine = 1, indentMultiline = false, newLineWrap = false) {
+function selectorList(
+  selectors,
+  maxSelectorsPerLine = 1,
+  indentMultiline = false,
+  newLineWrap = false,
+) {
   if (selectors.length === 0) {
     return "";
   }
@@ -49,6 +54,57 @@ function selectorList(selectors, maxSelectorsPerLine = 1, indentMultiline = fals
 }
 
 /**
+ * Creates a list of selectors for equal-column selectors.
+ *
+ * @param {number} columnsDesktopActual
+ *   The actual number of desktop grid columns in use (not, i.e. the "public"
+ *   number of columns in the design system).
+ * @param {Array<number>} factors
+ *   The factors, excluding 1, of the "public" number of desktop columns in the
+ *   design system.
+ * @param {string} namespace
+ *   The namespace to use when constructing the selector.
+ * @return {Array<string>}
+ *   The set of computed selectors.
+ */
+export function computeEcSelectors(columnsDesktopActual, factors, namespace) {
+  return factors.map((factor) => ({
+    selector: `.${namespace}--ec${factor}`,
+    span: columnsDesktopActual / factor,
+  }));
+}
+
+/**
+ * Creates a list of selectors for column-span cells.
+ *
+ * @param {number} columnsDesktop
+ *   The "public" number of columns used in the design system.
+ * @param {number} columnsMultiplier
+ *   The number used to determine the actual columns in the CSS (by multiplying
+ *   with columnsDesktop elsewhere).
+ * @param {string} namespace
+ *   The namespace to use when constructing the selector.
+ * @return {Array<string>} selectors
+ *   The set of computed selectors.
+ */
+export function computeCsSelectors(
+  columnsDesktop,
+  columnsMultiplier,
+  namespace,
+) {
+  const selectors = [];
+
+  for (let span = 1; span <= columnsDesktop; span++) {
+    selectors.push({
+      selector: `.${namespace}__cs${span}`,
+      span: columnsMultiplier * span,
+    });
+  }
+
+  return selectors;
+}
+
+/**
  * Generates CSS styles for a grid layout based on the provided settings.
  *
  * @param {Object} settings
@@ -71,7 +127,7 @@ function selectorList(selectors, maxSelectorsPerLine = 1, indentMultiline = fals
  *   and variables like `--myco-gs-grid-column-span`.
  * @returns {string} The generated CSS styles as a string.
  */
-export default function gridCss({
+export function gridCssTemplate({
   columnsDesktop,
   columnsMobile,
   columnsTablet,
