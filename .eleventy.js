@@ -2,6 +2,7 @@ export default async function(eleventyConfig) {
   // Copy static assets
   eleventyConfig.addPassthroughCopy({
     "src/assets/css": "assets/css",
+    "src/assets/js": "assets/js",
     "src/assets/vite/css": "assets/css",
     "src/assets/vite/js": "assets/js",
   });
@@ -13,7 +14,9 @@ export default async function(eleventyConfig) {
 
   // Watch for changes
   eleventyConfig.addWatchTarget("src/");
+  eleventyConfig.addWatchTarget("src/assets/css/");
   eleventyConfig.addWatchTarget("src/assets/js/");
+  eleventyConfig.addWatchTarget("src/assets/vite/");
 };
 
 export const config = {

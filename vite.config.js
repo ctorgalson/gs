@@ -7,10 +7,7 @@ export default defineConfig({
     outDir: "src/assets/vite",
     rollupOptions: {
       input: [
-        "src/_includes/components/GridSettingsFieldset.jsx",
-        "src/_includes/components/GridSettingsForm.jsx",
         "src/_includes/components/GridSystem.jsx",
-        "src/_includes/components/HelloWorld.jsx",
         "node_modules/prismjs/themes/prism-okaidia.min.css",
       ],
       output: {
