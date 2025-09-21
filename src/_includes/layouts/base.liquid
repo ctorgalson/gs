@@ -3,12 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>{{ title or "CSS Grid Generator" }}</title>
+  <title>CSS Grid Generator</title>
   <link rel="stylesheet" href="{{ '/assets/water.min.css'|url }}">
-  <link rel="stylesheet" href="{{ '/assets/styles.css'|url }}">
-  {% if use_prism -%}
-    <link rel="stylesheet" href="{{ '/assets/prism-tomorrow.min.css'|url }}">
-  {%- endif %}
+  <link rel="stylesheet" href="{{ '/assets/css/prism-okaidia.css'|url }}">
+  <link rel="stylesheet" href="{{ '/assets/css/styles.css'|url }}">
+  <style id="grid-system-styles"></style>
 </head>
 <body>
   {{ content|raw }}
