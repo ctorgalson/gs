@@ -24,34 +24,33 @@ fieldset > p:last-child {
   }
 }
 
-.gs-input :where(.gs-breakpoints, .gs-column-gap, .gs-columns, .gs-row-gap) > div {
+.gs__fieldset-inner {
   display: grid;
   grid-template-columns: 1fr;
   grid-column-gap: 1.5rem;
   grid-row-gap: 1lh;
-}
 
-.gs-output {
-  border-radius: 6px;
-
-  & > pre {
-    max-height: 30rem;
+  & input {
+    box-sizing: border-box;
+    width: 100%;
   }
 }
 
-.gs-html {
+.gs__css,
+.gs__html {
+  border-radius: 6px;
   max-height: 30rem;
   overflow-y: scroll;
 }
 
 @media screen and (min-width: 48rem) {
-  .gs-input :where(.gs-breakpoints, .gs-column-gap, .gs-columns, .gs-row-gap) > div {
+  .gs__fieldset-inner {
     grid-template-columns: auto;
   }
 }
 
 @media screen and (min-width: 60rem) {
-  .gs-input :where(.gs-breakpoints, .gs-column-gap, .gs-columns, .gs-row-gap) > div {
+  .gs__fieldset-inner {
     grid-template-columns: repeat(3, 1fr);
   }
 }
