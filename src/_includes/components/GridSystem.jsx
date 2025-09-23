@@ -31,8 +31,25 @@ function GridSystem({
     rowGapTablet: "var(--row-gap-tablet, 0.75lh)",
     columnsDesktop: 12,
   },
+  defaultParams = {
+    namespace: "gs",
+    breakpointDesktop: "width >= 60rem",
+    breakpointTablet: "width >= 48rem",
+    columnGapDesktop: "var(--column-gap-desktop, 1.5rem)",
+    columnGapTablet: "var(--column-gap-tablet, 1.125rem)",
+    rowGapDesktop: "var(--row-gap-desktop, 1.5lh)",
+    rowGapMobile: "var(--row-gap-mobile, 1lh)",
+    rowGapTablet: "var(--row-gap-tablet, 0.75lh)",
+    columnsDesktop: 12,
+  },
 }) {
+  const [state, setState] = useState(() => ({
+    ...defaultParams,
+    ...Object.fromEntries(new URLSearchParams(window.location.search)),
+  }));
+
   const urlParams = new URLSearchParams(window.location.search);
+
   const [columnsDesktop, setColumnsDesktop] = useState(
     urlParams.get("columnsDesktop") || defaults.columnsDesktop,
   );
@@ -67,6 +84,14 @@ function GridSystem({
   const [gridCss, setGridCss] = useState(undefined);
   const styleRef = useRef(undefined);
   refractor.register(css);
+
+  useEffect(() => {
+    const urlParams = new URLSearchParams(state);
+    const newUrl = `${window.location.pathname}?${urlParams.toString()}`;
+
+    // window.history.replaceState({}, "", newUrl);
+    console.log({newUrl});
+  }, [factors, state])
 
   useEffect(() => {
     const params = new URLSearchParams();
@@ -153,29 +178,21 @@ function GridSystem({
   return (
     <GridSystemContext.Provider
       value={{
-        breakpointDesktop,
-        setBreakpointDesktop,
+        breakpointDesktop, setBreakpointDesktop,
 
-        breakpointTablet,
-        setBreakpointTablet,
+        breakpointTablet, setBreakpointTablet,
 
-        columnsDesktop,
-        setColumnsDesktop,
+        columnsDesktop, setColumnsDesktop,
 
-        columnGapDesktop,
-        setColumnGapDesktop,
+        columnGapDesktop, setColumnGapDesktop,
 
-        columnGapTablet,
-        setColumnGapTablet,
+        columnGapTablet, setColumnGapTablet,
 
-        csSelectors,
-        setCsSelectors,
+        csSelectors, setCsSelectors,
 
-        ecSelectors,
-        setEcSelectors,
+        ecSelectors, setEcSelectors,
 
-        factors,
-        setFactors,
+        factors, setFactors,
 
         columnsMobile,
         columnsTablet,
@@ -183,14 +200,11 @@ function GridSystem({
         namespace,
         gridCss,
 
-        rowGapDesktop,
-        setRowGapDesktop,
+        rowGapDesktop, setRowGapDesktop,
 
-        rowGapMobile,
-        setRowGapMobile,
+        rowGapMobile, setRowGapMobile,
 
-        rowGapTablet,
-        setRowGapTablet,
+        rowGapTablet, setRowGapTablet,
       }}
     >
       {gridCss ? (
