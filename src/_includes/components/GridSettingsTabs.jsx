@@ -33,26 +33,20 @@ export default function GridSettingsTabs({
         tabsData,
       }}
     >
-      <div className="gs__tabs">
+      <div className="gs__tabs" role="tablist">
         <h2 id={tablistLabelledBy}>{title}</h2>
 
-        <div
-          aria-labelledby={tablistLabelledBy}
-          className="gs__tablist"
-          role="tablist"
-        >
-          {Children.map(labels, (label, index) => (
-            <GridSettingsTab {...tabsData[index]}>
-              {label}
-            </GridSettingsTab>
-          ))}
-        </div>
-        {Children.map(children, (child, index) => (
-          <GridSettingsTabPanel {...tabsData[index]}>
-            {child}
-          </GridSettingsTabPanel>
+        {Children.map(labels, (label, index) => (
+          <GridSettingsTab {...tabsData[index]}>
+            {label}
+          </GridSettingsTab>
         ))}
       </div>
+      {Children.map(children, (child, index) => (
+        <GridSettingsTabPanel {...tabsData[index]}>
+          {child}
+        </GridSettingsTabPanel>
+      ))}
     </GridSettingsTabsContext.Provider>
   ) : (<p>Loading...</p>);
 }
