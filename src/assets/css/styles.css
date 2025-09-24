@@ -7,7 +7,7 @@ fieldset > p:last-child {
   max-width: 60ch;
 }
 
-.gs-html .gs {
+.gs__html > * {
   background: azure;
 
   & > * {
@@ -19,8 +19,8 @@ fieldset > p:last-child {
     padding-inline: 0.5rem;
   }
 
-  & + .gs {
-    margin-block-start: var(--gs-grid-row-gap, 1lh);
+  & + * {
+    margin-block-start: 1lh;
   }
 }
 

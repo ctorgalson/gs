@@ -1,5 +1,4 @@
 import dedent from "dedent";
-import factorizeColumnCount from "./factorizeColumnCount";
 
 const columnsMultiplier = 2;
 
@@ -58,6 +57,13 @@ function selectorList(
 }
 
 /**
+ *
+ */
+export function computeEcSelector(namespace, factor, selector = true) {
+  return `${selector ? "." : ""}${namespace}--ec${factor}`;
+}
+
+/**
  * Creates a list of selectors for equal-column selectors.
  *
  * @param {number} columnsDesktopActual
@@ -73,9 +79,16 @@ function selectorList(
  */
 export function computeEcSelectors(columnsDesktopActual, factors, namespace) {
   return factors.map((factor) => ({
-    selector: `.${namespace}--ec${factor}`,
+    selector: computeEcSelector(namespace, factor),
     span: columnsDesktopActual / factor,
   }));
+}
+
+/**
+ *
+ */
+export function computeCsSelector(namespace, span, selector = true) {
+  return `${selector ? "." : ""}${namespace}__cs${span}`;
 }
 
 /**
@@ -100,7 +113,7 @@ export function computeCsSelectors(
 
   for (let span = 1; span <= columnsDesktop; span++) {
     selectors.push({
-      selector: `.${namespace}__cs${span}`,
+      selector: computeCsSelector(namespace, span),
       span: columnsMultiplier * span,
     });
   }
@@ -147,9 +160,8 @@ export function gridCssTemplate({
   rowGapDesktop,
   rowGapMobile,
   rowGapTablet,
-}) {
+}, factors) {
   const columnsDesktopActual = columnsMultiplier * columnsDesktop;
-  const factors = factorizeColumnCount(columnsDesktop);
   const ecSelectors = computeEcSelectors(
     columnsDesktopActual,
     factors,

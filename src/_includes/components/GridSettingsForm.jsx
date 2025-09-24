@@ -28,13 +28,13 @@ const fieldsetData = [
         id: "columns-mobile",
         fieldName: "columnsMobile",
         label: "Grid columns mobile (read-only)",
-        readOnly: true,
+        type: "number",
       },
       {
         id: "columns-tablet",
         fieldName: "columnsTablet",
         label: "Grid columns tablet (read-only)",
-        readOnly: true,
+        type: "number",
       },
       {
         id: "columns-desktop",
@@ -97,7 +97,10 @@ export default function GridSettingsForm() {
           {fieldsetData.map((fieldset) => (
             <GridSettingsFieldset {...fieldset} key={fieldset.fieldsetName}>
               {fieldset.fields.map((field) => (
+                <>
                 <GridSettingsField {...field} key={field.id} />
+                {/*<p>{JSON.stringify(field)}</p>*/}
+                </>
               ))}
             </GridSettingsFieldset>
           ))}
@@ -113,12 +116,11 @@ export function GridSettingsField({
   fieldName,
   min = null,
   max = null,
-  readOnly = false,
   size = "10",
   step = null,
   type = "text",
 }) {
-  const { state, setState } = useContext(GridSystemContext);
+  const { readOnly, state, setState } = useContext(GridSystemContext);
   const updateField = (name, value) => {
     setState((prev) => ({ ...prev, [name]: value }));
   };
@@ -133,7 +135,7 @@ export function GridSettingsField({
           min={min}
           name={fieldName}
           onChange={(e) => updateField(e.target.name, e.target.value)}
-          readOnly={readOnly}
+          readOnly={!!readOnly[fieldName]}
           size={size}
           step={step}
           type={type}
@@ -146,7 +148,7 @@ export function GridSettingsField({
           min={min}
           name={fieldName}
           onBlur={(e) => updateField(e.target.name, e.target.value)}
-          readOnly={readOnly}
+          readOnly={!!readOnly[fieldName]}
           value={state[fieldName]}
         />
       )}
