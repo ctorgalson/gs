@@ -5,6 +5,7 @@ import css from "refractor/css";
 import ErrorBoundary from "./ErrorBoundary";
 import GridSystemContext from "./GridSystemContext";
 import GridSettingsForm from "./GridSettingsForm";
+import GridSystemTabs from "./GridSystemTabs";
 import renderHAST from "./utils/renderHAST";
 import factorizeColumnCount from "./utils/factorizeColumnCount";
 import {
@@ -56,7 +57,7 @@ function GridSystem({
       styleRef.current = document.querySelector("#grid-system-styles");
     }
 
-    styleRef.current.textContent = gridCss;
+styleRef.current.textContent = gridCss;
   }, [gridCss]);
 
   return gridCss ? (
@@ -103,45 +104,50 @@ function GridSettingsStyles() {
 function GridSettingsGrids() {
   const { factors, gridCss, state } = useContext(GridSystemContext);
   const { columnsDesktop, namespace } = state;
-  console.log({ columnsDesktop, factors });
 
   return (
-    <div class="gs__html">
-      <h2>Generated CSS</h2>
-
-      {/* Equal-column cells */}
-      <h3>Equal-width cells</h3>
-      {factors.map((factor) => (
-        <div class={[
-          namespace,
-          computeEcSelector(namespace, factor, false),
-          "gs__html-cell"
-        ].join(" ")}>
-          {Array.from({ length: factor }, (_, index) => (
-            <div><sup>{index + 1}</sup> / <sub>{factor}</sub></div>
+    <div className="gs__html">
+      <GridSystemTabs
+        defaultTab="0"
+        labels={["Equal-width Cells", "Column-spanning cells"]}
+        title="Grid demo"
+      >
+        <div className="gs__html-demo">
+          {/* Equal-column cells */}
+          {factors.map((factor) => (
+            <div class={[
+              namespace,
+              computeEcSelector(namespace, factor, false),
+              "gs__html-cell"
+            ].join(" ")}>
+              {Array.from({ length: factor }, (_, index) => (
+                <div><sup>{index + 1}</sup> / <sub>{factor}</sub></div>
+              ))}
+            </div>
           ))}
         </div>
-      ))}
 
-      {/* Column-spanning cells */}
-      <h3>Column-spanning cells</h3>
-      <div class={namespace}>
-        {Array.from({ length: columnsDesktop }, (_, index) => {
-          const span1 = index + 1;
-          const unit1 = span1 > 1 ? "cols" : "col";
-          const selector1 = computeCsSelector(namespace, span1, false);
-          const span2 = parseInt(columnsDesktop, 10) - span1;
-          const unit2 = span2 > 1 ? "cols" : "col";
-          const selector2 = computeCsSelector(namespace, span2, false);
+        <div className="gs__html-demo">
+          {/* Column-spanning cells */}
+          <div class={namespace}>
+            {Array.from({ length: columnsDesktop }, (_, index) => {
+              const span1 = index + 1;
+              const unit1 = span1 > 1 ? "cols" : "col";
+              const selector1 = computeCsSelector(namespace, span1, false);
+              const span2 = parseInt(columnsDesktop, 10) - span1;
+              const unit2 = span2 > 1 ? "cols" : "col";
+              const selector2 = computeCsSelector(namespace, span2, false);
 
-          return (
-            <>
-              <div class={selector1}>{span1} {unit1}</div>
-              {span2 ? (<div class={selector2}>{span2} {unit2}</div>) : ""}
-            </>
-          );
-        })}
-      </div>
+              return (
+                <>
+                  <div class={selector1}>{span1} {unit1}</div>
+                  {span2 ? (<div class={selector2}>{span2} {unit2}</div>) : ""}
+                </>
+              );
+            })}
+          </div>
+        </div>
+      </GridSystemTabs>
     </div>
   );
 }
