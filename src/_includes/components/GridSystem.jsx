@@ -128,10 +128,10 @@ function GridSettingsGrids() {
       <div class={namespace}>
         {Array.from({ length: columnsDesktop }, (_, index) => {
           const span1 = index + 1;
-          const span2 = parseInt(columnsDesktop, 10) - span1;
           const unit1 = span1 > 1 ? "cols" : "col";
-          const unit2 = span2 > 1 ? "cols" : "col";
           const selector1 = computeCsSelector(namespace, span1, false);
+          const span2 = parseInt(columnsDesktop, 10) - span1;
+          const unit2 = span2 > 1 ? "cols" : "col";
           const selector2 = computeCsSelector(namespace, span2, false);
 
           return (

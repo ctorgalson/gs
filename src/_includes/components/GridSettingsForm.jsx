@@ -97,10 +97,7 @@ export default function GridSettingsForm() {
           {fieldsetData.map((fieldset) => (
             <GridSettingsFieldset {...fieldset} key={fieldset.fieldsetName}>
               {fieldset.fields.map((field) => (
-                <>
                 <GridSettingsField {...field} key={field.id} />
-                {/*<p>{JSON.stringify(field)}</p>*/}
-                </>
               ))}
             </GridSettingsFieldset>
           ))}
