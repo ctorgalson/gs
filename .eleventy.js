@@ -8,9 +8,7 @@ export default async function(eleventyConfig) {
   });
 
   // Add library assets
-  eleventyConfig.addPassthroughCopy({
-    "node_modules/water.css/out/water.min.css": "assets/water.min.css",
-  });
+  eleventyConfig.addPassthroughCopy({});
 
   // Watch for changes
   eleventyConfig.addWatchTarget("src/");

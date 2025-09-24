@@ -21,11 +21,6 @@ grid_row_gap_desktop: var(--row-gap-desktop, 1lh)
   <div data-component="grid-system"></div>
   <script type="module" src="{{ '/assets/js/GridSystem.js'|url }}"></script>
 
-  <section class="gs-input">
-    <h2>Grid configuration</h2>
-    {% include "grid-input.liquid" %}
-  </section>
-
   <section class="gs-output">
     <h2>Generated CSS</h2>
     {% comment %}Populated by js{% endcomment %}

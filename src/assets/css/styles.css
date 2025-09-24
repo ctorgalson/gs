@@ -43,6 +43,27 @@ fieldset > p:last-child {
   overflow-y: scroll;
 }
 
+.gs__tablist {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.gs__tab {
+  &[aria-selected="true"]:not(:focus) {
+    outline: 2px solid var(--focus);
+    outline-offset: 2px;
+  }
+}
+
+.gs__tabpanel {
+  border-radius: 6px;
+  display: block;
+
+  &[aria-hidden="true"] {
+    display: none;
+  }
+}
+
 @media screen and (min-width: 48rem) {
   .gs__fieldset-inner {
     grid-template-columns: auto;

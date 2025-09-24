@@ -1,4 +1,7 @@
 import dedent from "dedent";
+import factorizeColumnCount from "./factorizeColumnCount";
+
+const columnsMultiplier = 2;
 
 /**
  * Generates a formatted string of CSS selectors, with options for indentation
@@ -16,7 +19,8 @@ import dedent from "dedent";
  *   Whether to add a new line before the first selector and after the last.
  *   Works with indentMultiline for use inside e.g. :where().
  * @returns {string}
- *   A formatted string of selectors, separated by commas and new lines based on the specified limits.
+ *   A formatted string of selectors, separated by commas and new lines based
+ *   on the specified limits.
  */
 function selectorList(
   selectors,
@@ -134,13 +138,29 @@ export function computeCsSelectors(
 export function gridCssTemplate({
   breakpointDesktop,
   breakpointTablet,
+  columnGapDesktop,
+  columnGapTablet,
   columnsDesktop,
   columnsMobile,
   columnsTablet,
-  csSelectors,
-  ecSelectors,
   namespace,
+  rowGapDesktop,
+  rowGapMobile,
+  rowGapTablet,
 }) {
+  const columnsDesktopActual = columnsMultiplier * columnsDesktop;
+  const factors = factorizeColumnCount(columnsDesktop);
+  const ecSelectors = computeEcSelectors(
+    columnsDesktopActual,
+    factors,
+    namespace,
+  );
+  const csSelectors = computeCsSelectors(
+    columnsDesktop,
+    columnsMultiplier,
+    namespace,
+  );
+
   return dedent.withOptions({ alignValues: true })`
     /**
      * BH Grid System
@@ -148,8 +168,7 @@ export function gridCssTemplate({
      * This file contains a grid system using ${columnsDesktop} columns.
      */
     .${namespace} {
-      --${namespace}-grid-column-gap: var(--column-gap-mobile, 0.75rem);
-      --${namespace}-grid-row-gap: var(--row-gap-desktop, 1lh);
+      --${namespace}-grid-row-gap: ${rowGapMobile};
       --${namespace}-grid-columns: ${columnsMobile};
       --${namespace}-grid-columns-actual: calc(2 * var(--${namespace}-grid-columns));
       /* Everything has 1 column at mobile sizes. */
@@ -169,8 +188,8 @@ export function gridCssTemplate({
 
     @media screen and (${breakpointTablet}) {
       .${namespace} {
-        --${namespace}-grid-column-gap: var(--column-gap-tablet, 1.125rem);
-        --${namespace}-grid-row-gap: var(--row-gap-tablet, 0.75lh);
+        --${namespace}-grid-column-gap: ${columnGapTablet};
+        --${namespace}-grid-row-gap: ${rowGapTablet};
         --${namespace}-grid-columns: ${columnsTablet};
         /* Everything has 2 columns at tablet sizes. */
         --${namespace}-grid-column-span: calc(var(--${namespace}-grid-columns-actual) / 2);
@@ -199,8 +218,8 @@ export function gridCssTemplate({
 
     @media screen and (${breakpointDesktop}) {
       .${namespace} {
-        --${namespace}-grid-column-gap: var(--column-gap-desktop, 1.5rem);
-        --${namespace}-grid-row-gap: var(--row-gap-desktop, 1lh);
+        --${namespace}-grid-column-gap: ${columnGapDesktop};
+        --${namespace}-grid-row-gap: ${rowGapDesktop};
         --${namespace}-grid-columns: ${columnsDesktop};
       }
 

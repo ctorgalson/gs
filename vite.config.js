@@ -8,7 +8,6 @@ export default defineConfig({
     rollupOptions: {
       input: [
         "src/_includes/components/GridSystem.jsx",
-        "node_modules/prismjs/themes/prism-okaidia.min.css",
       ],
       output: {
         entryFileNames: "js/[name].js",
