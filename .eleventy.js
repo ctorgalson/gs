@@ -1,25 +1,20 @@
 export default async function(eleventyConfig) {
   // Copy static assets
-  eleventyConfig.addPassthroughCopy("src/assets");
+  eleventyConfig.addPassthroughCopy({
+    "src/assets/css": "assets/css",
+    "src/assets/js": "assets/js",
+    "src/assets/vite/css": "assets/css",
+    "src/assets/vite/js": "assets/js",
+  });
 
   // Add library assets
-  eleventyConfig.addPassthroughCopy({
-    "node_modules/nunjucks/browser/nunjucks.min.js": "assets/nunjucks.min.js",
-    "node_modules/prettier/plugins/postcss.js": "assets/postcss.js",
-    "node_modules/prettier/standalone.js": "assets/standalone.js",
-    "node_modules/prismjs/components/prism-css.min.js": "assets/prism-css-extras.min.js",
-    "node_modules/prismjs/components/prism-css.min.js": "assets/prism-css.min.js",
-    "node_modules/prismjs/plugins/line-numbers/prism-line-numbers.min.css": "assets/prism-line-numbers.min.css",
-    "node_modules/prismjs/plugins/line-numbers/prism-line-numbers.min.js": "assets/prism-line-numbers.min.js",
-    "node_modules/prismjs/prism.js": "assets/prism.js",
-    "node_modules/prismjs/themes/prism-tomorrow.min.css": "assets/prism-tomorrow.min.css",
-    "node_modules/water.css/out/water.min.css": "assets/water.min.css",
-    "src/_includes/grid-css.njk.html": "assets/templates/grid-css.njk.html",
-    "src/_includes/grid-html.njk.html": "assets/templates/grid-html.njk.html",
-  });
+  eleventyConfig.addPassthroughCopy({});
 
   // Watch for changes
   eleventyConfig.addWatchTarget("src/");
+  eleventyConfig.addWatchTarget("src/assets/css/");
+  eleventyConfig.addWatchTarget("src/assets/js/");
+  eleventyConfig.addWatchTarget("src/assets/vite/");
 };
 
 export const config = {
@@ -28,8 +23,8 @@ export const config = {
     output: "_site",
     includes: "_includes",
   },
-  htmlTemplateEngine: "njk",
-  markdownTemplateEngine: "njk",
+  htmlTemplateEngine: "liquid",
+  markdownTemplateEngine: "liquid",
   pathPrefix: "/gs/",
-  templateFormats: ["njk", "md", "html"],
+  templateFormats: ["liquid", "md", "html"],
 };

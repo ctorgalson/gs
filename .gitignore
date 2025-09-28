@@ -140,5 +140,6 @@ vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
 .vite/
 
-# Build directory
+# Build directories
 _site
+src/assets/vite
