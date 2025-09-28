@@ -57,18 +57,17 @@ function GridSystem({
           className="gs__css"
           code={gridCss}
           downloadFilename={`grid--${state.namespace}-${state.columnsDesktop}.css`}
-          downloadLinkText="Download"
+          downloadLinkText="Download code"
           downloadMimeType="text/css"
           heading={<h2>Generated CSS</h2>}
           language="css"
         />
         <GridSystemDemo
           classname="gs__html"
-          demoHeading={<h2>Grid demo</h2>}
           equalColumnClassName="gs__html-demo"
-          equalColumnHeading={<h3>Equal-width cells</h3>}
+          equalColumnHeading={<h2>Equal-width cells</h2>}
           columnSpanClassName="gs__html-demo"
-          columnSpanHeading={<h3>Column-spanning cells</h3>}
+          columnSpanHeading={<h2>Column-spanning cells</h2>}
           stylesheetIdSelector="#grid-system-styles"
         />
       </ErrorBoundary>
