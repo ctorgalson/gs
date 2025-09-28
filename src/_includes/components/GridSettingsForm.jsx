@@ -1,6 +1,6 @@
 import { useContext } from "preact/hooks";
 import GridSystemContext from "./GridSystemContext";
-import GridSystemTabs from "./GridSystemTabs";
+import Tabs from "./Tabs";
 import GridSettingsFieldset from "./GridSettingsFieldset";
 
 const fieldsetData = [
@@ -92,7 +92,11 @@ export default function GridSettingsForm() {
   return (
     <>
       <form className="gs__form">
-        <GridSystemTabs defaultTab="1" labels={tabData} title="Grid configuration">
+        <Tabs
+          defaultTab="1"
+          labels={tabData}
+          heading={<h2>Grid configuration</h2>}
+        >
           {fieldsetData.map((fieldset) => (
             <GridSettingsFieldset {...fieldset} key={fieldset.fieldsetName}>
               {fieldset.fields.map((field) => (
@@ -100,7 +104,7 @@ export default function GridSettingsForm() {
               ))}
             </GridSettingsFieldset>
           ))}
-        </GridSystemTabs>
+        </Tabs>
       </form>
     </>
   );

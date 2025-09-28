@@ -13,30 +13,12 @@ grid_columns_desktop: 12
 grid_columns_desktop_factors: "2,3,4,6,12"
 grid_column_gap_desktop: var(--column-gap-desktop, 1.5rem)
 grid_row_gap_desktop: var(--row-gap-desktop, 1lh)
+
+meta_description: "BH Grid System Generator"
 ---
 
 <main>
   <h1>CSS Grid Generator</h1>
-
   <div data-component="grid-system"></div>
   <script type="module" src="{{ '/assets/js/GridSystem.js'|url }}"></script>
-
-  <section class="gs-output">
-    <h2>Generated CSS</h2>
-    {% comment %}Populated by js{% endcomment %}
-    <a download href target="_blank">Download this file</a>
-    <pre class="gs-output"><code class="language-css"></code></pre>
-  </section>
-
-  <section class="gs-demo">
-    <h2>Grid demo</h2>
-    {% comment %}Populated by js{% endcomment %}
-    <style class="gs-demo-styles"></style>
-    <div class="gs-html"></div>
-  </section>
 </main>
-
-<script>
-  window.pathPrefix = "{{ '/'|url }}";
-  {% if process.env.NODE_ENV == "development" %}window.development = true;{% endif %}
-</script>

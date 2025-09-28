@@ -1,19 +1,19 @@
-import { createContext, h } from "preact";
-import { Children, useId } from "preact/compat";
-import LoadingState from "./LoadingState";
+import { cloneElement, createContext } from "preact";
+import { useId } from "preact/compat";
 import { useContext, useEffect, useRef, useState } from "preact/hooks";
+import clsx from "clsx/lite";
+import LoadingState from "./LoadingState";
 
-const GridSystemTabsContext = createContext();
+const TabsContext = createContext();
 
 /**
  *
  */
-export default function GridSystemTabs({
-  children,
+export default function Tabs({ children,
   className,
   defaultTab = 0,
+  heading,
   labels,
-  title,
 }) {
   function handleKeydown(event) {
     const { key, target } = event;
@@ -26,10 +26,14 @@ export default function GridSystemTabs({
 
     switch (key) {
       case "ArrowLeft":
+      case "ArrowUp":
+        event.preventDefault();
         nextIndex = selectedIndex === 0 ? lastIndex : selectedIndex - 1;
         break;
 
       case "ArrowRight":
+      case "ArrowDown":
+        event.preventDefault();
         nextIndex = selectedIndex === lastIndex ? 0 : selectedIndex + 1;
         break;
 
@@ -55,7 +59,12 @@ export default function GridSystemTabs({
   }
 
   const tablistLabelledBy = useId();
-  const [selectedIndex, setSelectedIndex] = useState(parseInt(defaultTab, 10));
+  const [selectedIndex, setSelectedIndex] = useState(() => {
+    const parsedIndex = parseInt(defaultTab, 10);
+    return isNaN(parsedIndex)
+      ? 0
+      : Math.max(0, Math.min(parsedIndex, labels.length - 1));
+  });
   const baseId = useId();
   const [tabsData, setTabsData] = useState([]);
   const tabsRefs = useRef(Array(labels.length).fill(null));
@@ -64,50 +73,52 @@ export default function GridSystemTabs({
    *
    */
   useEffect(() => {
-    // if (labels) {
-      setTabsData(
-        labels.map((label, index) => ({
-          index,
-          label,
-          tabId: `${baseId}-tab-${index}`,
-          tabpanelId: `${baseId}-tabpanel-${index}`,
-        })),
-      );
-    // }
-  }, [labels?.length, baseId]);
+    setTabsData(
+      labels.map((label, index) => ({
+        index,
+        label,
+        tabId: `${baseId}-tab-${index}`,
+        tabpanelId: `${baseId}-tabpanel-${index}`,
+      })),
+    );
+  }, [labels, baseId]);
 
   return (
     <LoadingState isLoading={!tabsData.length}>
-      <GridSystemTabsContext.Provider
+      <TabsContext.Provider
         value={{
           selectedIndex,
           setSelectedIndex,
           tabsData,
+          tabsRefs,
         }}
       >
         <div
-          className={[className, "gs__tabs"].join(" ")}
+          className={clsx(className, "gs__tabs")}
           onKeydown={handleKeydown}
         >
-          <GridSystemTabsHeading id={tablistLabelledBy}>
-            {title}
-          </GridSystemTabsHeading>
+          {cloneElement(heading, { id: tablistLabelledBy })}
 
-          <div className="gs__tablist" role="tablist">
+          <div
+            aria-labelledby={tablistLabelledBy}
+            className={clsx("gs__tablist")}
+            role="tablist"
+          >
             {tabsData.map((tabData) => (
-              <GridSystemTab {...tabData} tabsRefs={tabsRefs}>
-                {tabData.label}
-              </GridSystemTab>
+              <Tab key={tabData.tabId} {...tabData}>{tabData.label}</Tab>
             ))}
           </div>
 
-          {Children.map(children, (child, index) => (
-            <GridSystemTabPanel {...tabsData[index]}>
-              {child}
-            </GridSystemTabPanel>
+          {tabsData.map((tabData, index) => (
+            <TabPanel
+              key={tabData.tabpanelId}
+              {...tabData}
+            >
+              {children[index]}
+            </TabPanel>
           ))}
         </div>
-      </GridSystemTabsContext.Provider>
+      </TabsContext.Provider>
     </LoadingState>
   );
 }
@@ -115,22 +126,22 @@ export default function GridSystemTabs({
 /**
  *
  */
-function GridSystemTab({ children, index, tabId, tabpanelId, tabsRefs }) {
-  const { selectedIndex, setSelectedIndex } = useContext(GridSystemTabsContext);
+function Tab({ children, index, tabId, tabpanelId }) {
+  const { selectedIndex, setSelectedIndex, tabsRefs } = useContext(TabsContext);
   const selected = selectedIndex === index;
 
   return (
     <button
       aria-selected={String(selected)}
       aria-controls={tabpanelId}
-      className="gs__tab"
+      className={clsx("gs__tab")}
       id={tabId}
       key={tabId}
       onClick={(e) => setSelectedIndex(index)}
       ref={(el) => (tabsRefs.current[index] = el)}
       role="tab"
       type="button"
-      tabindex={selected ? null : -1}
+      tabIndex={selected ? null : -1}
     >
       {children}
     </button>
@@ -140,26 +151,19 @@ function GridSystemTab({ children, index, tabId, tabpanelId, tabsRefs }) {
 /**
  *
  */
-function GridSystemTabsHeading({ children, id, level = 2 }) {
-  return h(`h${level}`, { id }, children);
-}
-
-/**
- *
- */
-function GridSystemTabPanel({ children, index, tabId, tabpanelId }) {
-  const { selectedIndex } = useContext(GridSystemTabsContext);
+function TabPanel({ children, index, tabId, tabpanelId }) {
+  const { selectedIndex } = useContext(TabsContext);
   const selected = selectedIndex === index;
 
   return (
     <div
       aria-labelledby={tabId}
       aria-hidden={String(!selected)}
-      className="gs__tabpanel"
+      className={clsx("gs__tabpanel")}
       id={tabpanelId}
       key={tabpanelId}
       role="tabpanel"
-      tabindex="0"
+      tabIndex={selected ? 0 : -1}
     >
       {children}
     </div>

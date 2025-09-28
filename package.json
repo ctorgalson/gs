@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "CSS Grid Generator with 11ty",
   "scripts": {
+    "analyze": "npx vite-bundle-analyzer --mode server",
     "clean": "rm -rf _site",
     "dev": "npm run clean ; concurrently -n \"11ty,vite\" -c \"blue,green\" \"npm run dev:eleventy\" \"npm run dev:vite\"",
     "dev:eleventy": "eleventy --serve --port=8080",
@@ -13,13 +14,13 @@
   "devDependencies": {
     "@11ty/eleventy": "^3.1.2",
     "@preact/preset-vite": "^2.10.2",
+    "best-highlight": "^0.3.0",
+    "clsx": "^2.1.1",
     "concurrently": "^9.2.1",
     "dedent": "^1.7.0",
-    "prismjs": "^1.30.0",
-    "qs": "^6.14.0",
-    "refractor": "^5.0.0",
-    "urlon": "^3.1.0",
+    "react-shiki": "^0.8.0",
     "vite": "^7.1.6",
+    "vite-bundle-analyzer": "^1.2.3",
     "water.css": "^2.1.1"
   },
   "dependencies": {
