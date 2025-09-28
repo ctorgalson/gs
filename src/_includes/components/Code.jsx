@@ -33,11 +33,11 @@ export default function Code({
   downloadLinkText,
   downloadMimeType,
 }) {
-  const [highlighted, setHighlighted] = useState();
+  const [highlighted, setHighlighted] = useState(null);
   const codeRef = useRef(null);
 
   useEffect(() => {
-    if (code && codeRef.current) {
+    if (code) {
       setHighlighted(highlight(code, language));
     }
   }, [code, language]);

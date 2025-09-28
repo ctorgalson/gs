@@ -172,9 +172,6 @@ legend {
     border-bottom-left-radius: var(--gs-border-radius);
     border-bottom-right-radius: var(--gs-border-radius);
   }
-
-  & + .gs__tab {
-  }
 }
 
 .gs__tabpanel {
@@ -264,12 +261,12 @@ legend {
     background-color: var(--gs-color-white);
     color: var(--gs-color-black);
     font-size: 1.125rem;
+    margin-block: 0;
   }
 
   pre {
     border-radius: var(--gs-border-radius);
     height: 32rem;
-    margin-block: 0;
     outline: 3px solid var(--nord9);
     overflow-y: auto;
   }
