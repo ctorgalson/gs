@@ -18,7 +18,6 @@
     "clsx": "^2.1.1",
     "concurrently": "^9.2.1",
     "dedent": "^1.7.0",
-    "react-shiki": "^0.8.0",
     "vite": "^7.1.6",
     "vite-bundle-analyzer": "^1.2.3",
     "water.css": "^2.1.1"
