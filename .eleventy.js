@@ -1,8 +1,6 @@
 export default async function(eleventyConfig) {
   // Copy static assets
   eleventyConfig.addPassthroughCopy({
-    "src/assets/css": "assets/css",
-    "src/assets/js": "assets/js",
     "src/assets/vite/css": "assets/css",
     "src/assets/vite/js": "assets/js",
   });

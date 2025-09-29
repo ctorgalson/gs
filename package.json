@@ -8,7 +8,7 @@
     "dev": "npm run clean ; concurrently -n \"11ty,vite\" -c \"blue,green\" \"npm run dev:eleventy\" \"npm run dev:vite\"",
     "dev:eleventy": "eleventy --serve --port=8080",
     "dev:vite": "vite build --watch",
-    "build": "eleventy && vite build"
+    "build": "vite build && eleventy"
   },
   "type": "module",
   "devDependencies": {
