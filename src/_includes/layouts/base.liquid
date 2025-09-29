@@ -5,8 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="{{ meta_description }}">
   <title>CSS Grid Generator</title>
-  <link rel="stylesheet" href="{{ '/assets/css/GridSystem.css'|url }}">
-  <style id="grid-system-styles"></style>
+  <link rel="stylesheet" href="{{ 'src/_includes/components/GridSystem.jsx'|assetCss|url }}">
 </head>
 <body>
   {{ content|raw }}
