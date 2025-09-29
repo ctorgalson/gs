@@ -55,7 +55,7 @@ function GridSystemEqualColumnCells({ className, heading }) {
   return (
     <div className={clsx(className)}>
       {heading}
-      <div tabindes="0">
+      <div tabindex="0">
         {factors.map((factor) => (
           <div
             className={clsx(

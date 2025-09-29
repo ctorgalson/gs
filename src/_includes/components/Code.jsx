@@ -57,8 +57,12 @@ export default function Code({
           </li>
           <li><CodeCopyLink targetRef={codeRef} /></li>
         </ul>
-        <pre className={`language-${language}`} tabindex="0">
-          <code ref={codeRef} dangerouslySetInnerHTML={{ __html: highlighted }} />
+        <pre className={`language-${language}`}>
+          <code
+            ref={codeRef}
+            tabindex="0"
+            dangerouslySetInnerHTML={{ __html: highlighted }}
+          />
         </pre>
       </div>
     </ErrorBoundary>
