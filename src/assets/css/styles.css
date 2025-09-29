@@ -259,16 +259,21 @@ legend {
 
   code {
     background-color: var(--gs-color-white);
+    border-radius: var(--gs-border-radius);
     color: var(--gs-color-black);
     font-size: 1.125rem;
+    height: 32rem;
     margin-block: 0;
+    outline: 3px solid var(--nord9);
+    overflow-y: auto;
+
+    &:focus {
+      outline: var(--gs-focus-outline);
+      outline-offset: var(--gs-focus-outline-offset);
+    }
   }
 
   pre {
-    border-radius: var(--gs-border-radius);
-    height: 32rem;
-    outline: 3px solid var(--nord9);
-    overflow-y: auto;
   }
 }
 
@@ -283,6 +288,11 @@ legend {
     outline: 3px solid var(--nord9);
     padding-block: 0.5rem;
     padding-inline: 0.5rem;
+
+    &:focus {
+      outline: var(--gs-focus-outline);
+      outline-offset: var(--gs-focus-outline-offset);
+    }
 
     & > div {
       & > div {
