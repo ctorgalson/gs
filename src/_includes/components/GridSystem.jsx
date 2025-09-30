@@ -44,13 +44,15 @@ function GridSystem({
   }, [state]);
 
   return gridCss ? (
-    <GridSystemContext.Provider value={{
-      factors,
-      gridCss,
-      readOnly,
-      state,
-      setState
-    }}>
+    <GridSystemContext.Provider
+      value={{
+        factors,
+        gridCss,
+        readOnly,
+        state,
+        setState,
+      }}
+    >
       <ErrorBoundary>
         <GridSettingsForm />
         <Code
