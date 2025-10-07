@@ -75,22 +75,22 @@ function GridSystemEqualColumnCells({ className, heading }) {
 
 function GridSystemColumnSpanCells({ className, heading }) {
   const { state } = useContext(GridSystemContext);
-  const { columnsDesktop, namespace } = state;
+  const { columns, namespace } = state;
 
   return (
     <div className={clsx(className)}>
       {heading}
       <div tabindex="0">
-        {Array.from({ length: columnsDesktop }, (_, index) => {
+        {Array.from({ length: columns }, (_, index) => {
           const span1 = index + 1;
           const selector1 = computeCsSelector(namespace, span1, false);
-          const span2 = parseInt(columnsDesktop, 10) - span1;
+          const span2 = parseInt(columns, 10) - span1;
           const selector2 = computeCsSelector(namespace, span2, false);
 
           return (
             <div className={namespace}>
-              <div className={selector1}><Fraction numerator={span1} denominator={columnsDesktop} /></div>
-              {span2 ? (<div className={selector2}><Fraction numerator={span2} denominator={columnsDesktop} /></div>) : ""}
+              <div className={selector1}><Fraction numerator={span1} denominator={columns} /></div>
+              {span2 ? (<div className={selector2}><Fraction numerator={span2} denominator={columns} /></div>) : ""}
             </div>
           );
         })}

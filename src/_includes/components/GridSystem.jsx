@@ -11,7 +11,7 @@ import "water.css/out/water.min.css";
 import "../../assets/css/styles.css";
 
 function GridSystem({
-  readOnly = { columnsMobile: 1, columnsTablet: 2 },
+  readOnly = {},
   defaultState = {
     namespace: "gs",
     breakpointDesktop: "width >= 60rem",
@@ -21,7 +21,7 @@ function GridSystem({
     rowGapDesktop: "var(--row-gap-desktop, 1.5lh)",
     rowGapMobile: "var(--row-gap-mobile, 1lh)",
     rowGapTablet: "var(--row-gap-tablet, 0.75lh)",
-    columnsDesktop: 12,
+    columns: 12,
   },
 }) {
   const [state, setState] = useState(() => ({
@@ -35,7 +35,7 @@ function GridSystem({
   useEffect(() => {
     const urlParams = new URLSearchParams(state);
     const newUrl = `${window.location.pathname}?${urlParams.toString()}`;
-    const factors = factorizeColumnCount(state.columnsDesktop);
+    const factors = factorizeColumnCount(state.columns);
     const gridCss = gridCssTemplate(state, factors);
 
     setFactors(factors);
@@ -58,7 +58,7 @@ function GridSystem({
         <Code
           className="gs__css"
           code={gridCss}
-          downloadFilename={`grid--${state.namespace}-${state.columnsDesktop}.css`}
+          downloadFilename={`grid--${state.namespace}-${state.columns}.css`}
           downloadLinkText="Download code"
           downloadMimeType="text/css"
           heading={<h2>Generated CSS</h2>}

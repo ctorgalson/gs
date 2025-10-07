@@ -57,7 +57,17 @@ function selectorList(
 }
 
 /**
+ * Computes a CSS selector for equal-column grid cells.
  *
+ * @param {string} namespace
+ *   The namespace to use when constructing the selector.
+ * @param {number} factor
+ *   The factor used to determine column span (columnsActual / factor).
+ * @param {boolean} [selector=true]
+ *   Whether to include the CSS selector prefix (.).
+ *
+ * @returns {string}
+ *   The computed CSS selector.
  */
 export function computeEcSelector(namespace, factor, selector = true) {
   return `${selector ? "." : ""}${namespace}--ec${factor}`;
@@ -66,7 +76,7 @@ export function computeEcSelector(namespace, factor, selector = true) {
 /**
  * Creates a list of selectors for equal-column selectors.
  *
- * @param {number} columnsDesktopActual
+ * @param {number} columnsActual
  *   The actual number of desktop grid columns in use (not, i.e. the "public"
  *   number of columns in the design system).
  * @param {Array<number>} factors
@@ -77,15 +87,25 @@ export function computeEcSelector(namespace, factor, selector = true) {
  * @return {Array<string>}
  *   The set of computed selectors.
  */
-export function computeEcSelectors(columnsDesktopActual, factors, namespace) {
+export function computeEcSelectors(columnsActual, factors, namespace) {
   return factors.map((factor) => ({
     selector: computeEcSelector(namespace, factor),
-    span: columnsDesktopActual / factor,
+    span: columnsActual / factor,
   }));
 }
 
 /**
+ * Computes a CSS selector for column-span grid cells.
  *
+ * @param {string} namespace
+ *   The namespace to use when constructing the selector.
+ * @param {number} span
+ *   The number of columns the cell should span.
+ * @param {boolean} [selector=true]
+ *   Whether to include the CSS selector prefix (.).
+ *
+ * @returns {string}
+ *   The computed CSS selector.
  */
 export function computeCsSelector(namespace, span, selector = true) {
   return `${selector ? "." : ""}${namespace}__cs${span}`;
@@ -94,24 +114,24 @@ export function computeCsSelector(namespace, span, selector = true) {
 /**
  * Creates a list of selectors for column-span cells.
  *
- * @param {number} columnsDesktop
+ * @param {number} columns
  *   The "public" number of columns used in the design system.
  * @param {number} columnsMultiplier
  *   The number used to determine the actual columns in the CSS (by multiplying
- *   with columnsDesktop elsewhere).
+ *   with columns elsewhere).
  * @param {string} namespace
  *   The namespace to use when constructing the selector.
  * @return {Array<string>} selectors
  *   The set of computed selectors.
  */
 export function computeCsSelectors(
-  columnsDesktop,
+  columns,
   columnsMultiplier,
   namespace,
 ) {
   const selectors = [];
 
-  for (let span = 1; span <= columnsDesktop; span++) {
+  for (let span = 1; span <= columns; span++) {
     selectors.push({
       selector: computeCsSelector(namespace, span),
       span: columnsMultiplier * span,
@@ -130,12 +150,8 @@ export function computeCsSelectors(
  *   A valid CSS breakpoint value.
  * @param {string} settings.breakpointMobile
  *   A valid CSS breakpoint value.
- * @param {number} settings.columnsDesktop
+ * @param {number} settings.columns
  *   The number of columns for desktop view.
- * @param {number} settings.columnsMobile
- *   The number of columns for mobile view.
- * @param {number} settings.columnsTablet
- *   The number of columns for tablet view.
  * @param {Array<string>} settings.csSelectors
  *   An array of CSS selectors for column-spanning cells (i.e. styles for cells
  *   that span an arbitrary number of grid columns).
@@ -146,6 +162,7 @@ export function computeCsSelectors(
  *   A string used to customize the selector and variable names. E.g. MyCompany
  *   might use `myco-gs` to get classes like `.myco-gs`, `.myco-gs__cs1` etc.,
  *   and variables like `--myco-gs-grid-column-span`.
+ *
  * @returns {string} The generated CSS styles as a string.
  */
 export function gridCssTemplate({
@@ -153,22 +170,20 @@ export function gridCssTemplate({
   breakpointTablet,
   columnGapDesktop,
   columnGapTablet,
-  columnsDesktop,
-  columnsMobile,
-  columnsTablet,
+  columns,
   namespace,
   rowGapDesktop,
   rowGapMobile,
   rowGapTablet,
 }, factors) {
-  const columnsDesktopActual = columnsMultiplier * columnsDesktop;
+  const columnsActual = columnsMultiplier * columns;
   const ecSelectors = computeEcSelectors(
-    columnsDesktopActual,
+    columnsActual,
     factors,
     namespace,
   );
   const csSelectors = computeCsSelectors(
-    columnsDesktop,
+    columns,
     columnsMultiplier,
     namespace,
   );
@@ -177,11 +192,11 @@ export function gridCssTemplate({
     /**
      * BH Grid System
      *
-     * This file contains a grid system using ${columnsDesktop} columns.
+     * This file contains a grid system using ${columns} columns.
      */
     .${namespace} {
       --${namespace}-grid-row-gap: ${rowGapMobile};
-      --${namespace}-grid-columns: ${columnsMobile};
+      --${namespace}-grid-columns: ${columns};
       --${namespace}-grid-columns-actual: calc(2 * var(--${namespace}-grid-columns));
       /* Everything has 1 column at mobile sizes. */
       --${namespace}-grid-column-span: calc(var(--${namespace}-grid-columns-actual) / 1);
@@ -202,7 +217,6 @@ export function gridCssTemplate({
       .${namespace} {
         --${namespace}-grid-column-gap: ${columnGapTablet};
         --${namespace}-grid-row-gap: ${rowGapTablet};
-        --${namespace}-grid-columns: ${columnsTablet};
         /* Everything has 2 columns at tablet sizes. */
         --${namespace}-grid-column-span: calc(var(--${namespace}-grid-columns-actual) / 2);
       }
@@ -232,7 +246,6 @@ export function gridCssTemplate({
       .${namespace} {
         --${namespace}-grid-column-gap: ${columnGapDesktop};
         --${namespace}-grid-row-gap: ${rowGapDesktop};
-        --${namespace}-grid-columns: ${columnsDesktop};
       }
 
       /* Equal-column cells */
