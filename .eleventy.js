@@ -43,7 +43,6 @@ export const config = {
   htmlTemplateEngine: "liquid",
   manifestPath: "src/assets/vite/.vite/manifest.json",
   markdownTemplateEngine: "liquid",
-  pathPrefix: "/gs/",
   templateFormats: ["liquid", "md", "html"],
   // Non-eleventy config used in shortcodes.
   assetDir: "assets",
