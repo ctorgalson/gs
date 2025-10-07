@@ -1,5 +1,5 @@
 import { render } from "preact";
-import { useEffect, useState } from "preact/hooks";
+import { useEffect, useRef, useState } from "preact/hooks";
 import ErrorBoundary from "./ErrorBoundary";
 import GridSystemContext from "./GridSystemContext";
 import GridSettingsForm from "./GridSettingsForm";
@@ -31,16 +31,24 @@ function GridSystem({
   }));
   const [gridCss, setGridCss] = useState(undefined);
   const [factors, setFactors] = useState(undefined);
+  const firstRender = useRef(true);
 
   useEffect(() => {
-    const urlParams = new URLSearchParams(state);
-    const newUrl = `${window.location.pathname}?${urlParams.toString()}`;
     const factors = factorizeColumnCount(state.columns);
     const gridCss = gridCssTemplate(state, factors);
+    let urlParams;
+    let newUrl;
 
     setFactors(factors);
     setGridCss(gridCss);
-    window.history.replaceState({}, "", newUrl);
+
+    if (firstRender.current) {
+      firstRender.current = false;
+    } else {
+      urlParams = new URLSearchParams(state);
+      newUrl = `${window.location.pathname}?${urlParams.toString()}`;
+      window.history.replaceState({}, "", newUrl);
+    }
   }, [state]);
 
   return gridCss ? (
