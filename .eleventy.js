@@ -1,42 +1,51 @@
 import { join } from "path";
-import { createAssetShortcodes } from "./lib/shortcodes.js";
+import { linksFromManifest, scriptFromManifest } from "./lib/shortcodes.js";
 
-const assetDir = "assets";
-const viteDir = join(assetDir, "vite");
-const manifestPath = "src/assets/vite/.vite/manifest.json";
+const targets = [
+  "src/_includes/assets/vite/.vite/manifest.json",
+  "src/_includes/data/",
+  "src/_includes/layouts/",
+  "src/index.liquid",
+];
+const passthroughs = {
+  "src/assets/vite/css": `assets/css`,
+  "src/assets/vite/js":  `assets/js`,
+};
 
 export default async function (eleventyConfig) {
+  // We need to pass the odd filter to shortcodes etc.
+  const urlFilter = eleventyConfig.getFilter("url");
+
   // Add throttle to prevent race conditions with Vite builds.
   eleventyConfig.setWatchThrottleWaitTime(200);
 
   // Watch for changes.
-  [
-    "src/_includes/assets/vite/.vite/manifest.json",
-    "src/_includes/data/",
-    "src/_includes/layouts/",
-    "src/index.liquid",
-  ].forEach((target) => eleventyConfig.addWatchTarget(target));
+  targets.forEach((target) => eleventyConfig.addWatchTarget(target));
 
   // Copy static assets from Vite build.
-  eleventyConfig.addPassthroughCopy({
-    "src/assets/vite/css": `${assetDir}/css`,
-    "src/assets/vite/js": `${assetDir}/js`,
-  });
+  eleventyConfig.addPassthroughCopy(passthroughs);
 
   // Add asset shortcodes.
-  const { link, script } = createAssetShortcodes(manifestPath, assetDir, viteDir);
-  eleventyConfig.addShortcode("link", link);
-  eleventyConfig.addShortcode("script", script);
+  eleventyConfig.addShortcode("linksFromManifest", function (path) {
+    return linksFromManifest.call(this, path, urlFilter);
+  });
+  eleventyConfig.addShortcode("scriptFromManifest", function (path) {
+    return scriptFromManifest.call(this, path, urlFilter);
+  });
 }
 
 export const config = {
   dir: {
+    includes: "_includes",
     input: "src",
     output: "_site",
-    includes: "_includes",
   },
   htmlTemplateEngine: "liquid",
+  manifestPath: "src/assets/vite/.vite/manifest.json",
   markdownTemplateEngine: "liquid",
   pathPrefix: "/gs/",
   templateFormats: ["liquid", "md", "html"],
+  // Non-eleventy config used in shortcodes.
+  assetDir: "assets",
+  viteDir: join("assets", "vite"),
 };
