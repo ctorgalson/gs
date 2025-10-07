@@ -25,25 +25,13 @@ const fieldsetData = [
     legend: "Columns",
     fields: [
       {
-        id: "columns-mobile",
-        fieldName: "columnsMobile",
-        label: "Grid columns mobile (read-only)",
-        type: "number",
-      },
-      {
-        id: "columns-tablet",
-        fieldName: "columnsTablet",
-        label: "Grid columns tablet (read-only)",
-        type: "number",
-      },
-      {
-        id: "columns-desktop",
-        fieldName: "columnsDesktop",
-        label: "Grid columns desktop",
+        id: "columns",
+        fieldName: "columns",
+        label: "Grid columns",
         max: "120",
         min: "8",
-        type: "number",
         step: "2",
+        type: "number",
       },
     ],
   },
@@ -135,7 +123,6 @@ export function GridSettingsField({
           min={min}
           name={fieldName}
           onChange={(e) => updateField(e.target.name, e.target.value)}
-          readOnly={!!readOnly[fieldName]}
           size={size}
           step={step}
           type={type}
@@ -148,7 +135,6 @@ export function GridSettingsField({
           min={min}
           name={fieldName}
           onBlur={(e) => updateField(e.target.name, e.target.value)}
-          readOnly={!!readOnly[fieldName]}
           value={state[fieldName]}
         />
       )}
