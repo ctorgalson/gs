@@ -8,7 +8,7 @@ import Code from "./Code";
 import factorizeColumnCount from "./utils/factorizeColumnCount";
 import { gridCssTemplate } from "./utils/gridCssTemplate";
 import "water.css/out/water.min.css";
-import "../../assets/css/styles.css";
+import "../assets/css/styles.css";
 
 function GridSystem({
   readOnly = {},

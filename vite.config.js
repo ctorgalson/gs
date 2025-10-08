@@ -7,7 +7,7 @@ export default defineConfig({
     manifest: true,
     outDir: "src/assets/vite",
     rollupOptions: {
-      input: ["src/_includes/components/GridSystem.jsx"],
+      input: ["src/components/GridSystem.jsx"],
       output: {
         entryFileNames: "js/[name]-[hash].js",
         chunkFileNames: "js/[name]-[hash].js",
