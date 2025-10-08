@@ -5,8 +5,8 @@ import GridSystemContext from "./GridSystemContext";
 import GridSettingsForm from "./GridSettingsForm";
 import GridSystemDemo from "./GridSystemDemo";
 import Code from "./Code";
-import factorizeColumnCount from "./utils/factorizeColumnCount";
-import { gridCssTemplate } from "./utils/gridCssTemplate";
+import factorizeColumnCount from "../lib/grid/factorizeColumnCount";
+import { gridCssTemplate } from "../lib/grid/gridCssTemplate";
 import "water.css/out/water.min.css";
 import "../assets/css/styles.css";
 
