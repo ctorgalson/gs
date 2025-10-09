@@ -7,6 +7,7 @@ const targets = [
   "src/index.liquid",
 ];
 const passthroughs = {
+  "src/assets/favicons": "assets/favicons",
   "src/assets/vite/css": "assets/css",
   "src/assets/vite/js":  "assets/js",
 };
