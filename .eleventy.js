@@ -3,13 +3,12 @@ import { linksFromManifest, scriptFromManifest } from "./src/lib/eleventy/shortc
 
 const targets = [
   "src/_data/",
-  "src/_includes/assets/vite/.vite/manifest.json",
   "src/_includes/layouts/",
   "src/index.liquid",
 ];
 const passthroughs = {
-  "src/assets/vite/css": `assets/css`,
-  "src/assets/vite/js":  `assets/js`,
+  "src/assets/vite/css": "assets/css",
+  "src/assets/vite/js":  "assets/js",
 };
 
 export default async function (eleventyConfig) {

@@ -5,16 +5,15 @@
   "scripts": {
     "analyze": "npx vite-bundle-analyzer --mode server",
     "clean": "rm -rf _site",
-    "dev": "npm run clean ; concurrently -n \"11ty,vite\" -c \"blue,green\" \"npm run dev:eleventy\" \"npm run dev:vite\"",
-    "dev:eleventy": "eleventy --serve --port=8080",
-    "dev:vite": "vite build --watch",
-    "build": "vite build && eleventy"
+    "build": "vite build && eleventy",
+    "dev": "npm run clean && npm run build && concurrently -n \"11ty,watch\" -c \"blue,green\" \"eleventy --serve --port=8080\" \"chokidar 'src/**/*' --ignore 'src/assets/vite/**' -c 'npm run build && sleep 0.1 && touch _site/index.html'\""
   },
   "type": "module",
   "devDependencies": {
     "@11ty/eleventy": "^3.1.2",
     "@preact/preset-vite": "^2.10.2",
     "best-highlight": "^0.3.0",
+    "chokidar-cli": "^3.0.0",
     "clsx": "^2.1.1",
     "concurrently": "^9.2.1",
     "dedent": "^1.7.0",
