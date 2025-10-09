@@ -1,4 +1,3 @@
-import { render } from "preact";
 import { useEffect, useRef, useState } from "preact/hooks";
 import ErrorBoundary from "./ErrorBoundary";
 import GridSystemContext from "./GridSystemContext";
@@ -10,7 +9,7 @@ import { gridCssTemplate } from "../lib/grid/gridCssTemplate";
 import "water.css/out/water.min.css";
 import "../assets/css/styles.css";
 
-function GridSystem({
+export default function GridSystem({
   readOnly = {},
   defaultState = {
     namespace: "gs",
@@ -84,7 +83,3 @@ function GridSystem({
     </GridSystemContext.Provider>
   ) : null;
 }
-
-document
-  .querySelectorAll("[data-component='grid-system']")
-  .forEach((el) => render(<GridSystem />, el));
