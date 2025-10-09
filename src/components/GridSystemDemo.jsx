@@ -5,7 +5,7 @@ import GridSystemContext from "./GridSystemContext";
 import {
   computeEcSelector,
   computeCsSelector,
-} from "./utils/gridCssTemplate";
+} from "../lib/grid/gridCssTemplate";
 
 export default function GridSystemDemo({
   className,

@@ -1,15 +1,14 @@
 import { join } from "path";
-import { linksFromManifest, scriptFromManifest } from "./lib/shortcodes.js";
+import { linksFromManifest, scriptFromManifest } from "./src/lib/eleventy/shortcodes.js";
 
 const targets = [
-  "src/_includes/assets/vite/.vite/manifest.json",
-  "src/_includes/data/",
+  "src/_data/",
   "src/_includes/layouts/",
   "src/index.liquid",
 ];
 const passthroughs = {
-  "src/assets/vite/css": `assets/css`,
-  "src/assets/vite/js":  `assets/js`,
+  "src/assets/vite/css": "assets/css",
+  "src/assets/vite/js":  "assets/js",
 };
 
 export default async function (eleventyConfig) {

@@ -1,29 +1,15 @@
-import { render } from "preact";
 import { useEffect, useRef, useState } from "preact/hooks";
 import ErrorBoundary from "./ErrorBoundary";
 import GridSystemContext from "./GridSystemContext";
 import GridSettingsForm from "./GridSettingsForm";
 import GridSystemDemo from "./GridSystemDemo";
 import Code from "./Code";
-import factorizeColumnCount from "./utils/factorizeColumnCount";
-import { gridCssTemplate } from "./utils/gridCssTemplate";
+import factorizeColumnCount from "../lib/grid/factorizeColumnCount";
+import { gridCssTemplate } from "../lib/grid/gridCssTemplate";
 import "water.css/out/water.min.css";
-import "../../assets/css/styles.css";
+import "../assets/css/styles.css";
 
-function GridSystem({
-  readOnly = {},
-  defaultState = {
-    namespace: "gs",
-    breakpointDesktop: "width >= 60rem",
-    breakpointTablet: "width >= 48rem",
-    columnGapDesktop: "var(--column-gap-desktop, 1.5rem)",
-    columnGapTablet: "var(--column-gap-tablet, 1.125rem)",
-    rowGapDesktop: "var(--row-gap-desktop, 1.5lh)",
-    rowGapMobile: "var(--row-gap-mobile, 1lh)",
-    rowGapTablet: "var(--row-gap-tablet, 0.75lh)",
-    columns: 12,
-  },
-}) {
+export default function GridSystem({ readOnly = {}, defaultState }) {
   const [state, setState] = useState(() => ({
     ...defaultState,
     ...Object.fromEntries(new URLSearchParams(window.location.search)),
@@ -84,7 +70,3 @@ function GridSystem({
     </GridSystemContext.Provider>
   ) : null;
 }
-
-document
-  .querySelectorAll("[data-component='grid-system']")
-  .forEach((el) => render(<GridSystem />, el));

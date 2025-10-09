@@ -1,7 +1,7 @@
 import { createHash } from "crypto";
 import { existsSync, readFileSync } from "fs";
 import { join } from "path";
-import { config } from "../.eleventy.js";
+import { config } from "../../../.eleventy.js";
 
 /**
  * Builds an <script> or <link> tag with optional SRI integrity attribute.
