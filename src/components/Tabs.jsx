@@ -7,7 +7,26 @@ import LoadingState from "./LoadingState";
 const TabsContext = createContext();
 
 /**
+ * A tabbed interface component with keyboard navigation support.
  *
+ * Implements ARIA tab pattern with keyboard navigation (arrow keys, Home, End).
+ * Supports dynamic tab content and accessible labeling.
+ *
+ * @param {Object} props
+ *   Component props.
+ * @param {Array<JSX.Element>} props.children
+ *   Array of tab panel content elements.
+ * @param {string} [props.className]
+ *   Optional CSS class for the container.
+ * @param {number} [props.defaultTab=0]
+ *   Index of the initially selected tab.
+ * @param {JSX.Element} props.heading
+ *   Heading element that labels the tablist.
+ * @param {Array<string>} props.labels
+ *   Array of tab button labels.
+ *
+ * @returns {JSX.Element}
+ *   The tabs component.
  */
 export default function Tabs({ children,
   className,
@@ -15,6 +34,12 @@ export default function Tabs({ children,
   heading,
   labels,
 }) {
+  /**
+   * Handles keyboard navigation within the tablist.
+   *
+   * @param {KeyboardEvent} event
+   *   The keyboard event.
+   */
   function handleKeydown(event) {
     const { key, target } = event;
     const lastIndex = tabsRefs.current.length - 1;
@@ -70,7 +95,7 @@ export default function Tabs({ children,
   const tabsRefs = useRef(Array(labels.length).fill(null));
 
   /**
-   *
+   * Initializes tab data with unique IDs for tabs and panels.
    */
   useEffect(() => {
     setTabsData(
@@ -124,7 +149,21 @@ export default function Tabs({ children,
 }
 
 /**
+ * Individual tab button within the tablist.
  *
+ * @param {Object} props
+ *   Component props.
+ * @param {JSX.Element} props.children
+ *   Tab button label content.
+ * @param {number} props.index
+ *   Zero-based index of this tab.
+ * @param {string} props.tabId
+ *   Unique ID for this tab button.
+ * @param {string} props.tabpanelId
+ *   ID of the associated tabpanel.
+ *
+ * @returns {JSX.Element}
+ *   The tab button.
  */
 function Tab({ children, index, tabId, tabpanelId }) {
   const { selectedIndex, setSelectedIndex, tabsRefs } = useContext(TabsContext);
@@ -149,7 +188,21 @@ function Tab({ children, index, tabId, tabpanelId }) {
 }
 
 /**
+ * Individual tab panel containing tab content.
  *
+ * @param {Object} props
+ *   Component props.
+ * @param {JSX.Element} props.children
+ *   Tab panel content.
+ * @param {number} props.index
+ *   Zero-based index of this panel.
+ * @param {string} props.tabId
+ *   ID of the associated tab button.
+ * @param {string} props.tabpanelId
+ *   Unique ID for this tabpanel.
+ *
+ * @returns {JSX.Element}
+ *   The tabpanel.
  */
 function TabPanel({ children, index, tabId, tabpanelId }) {
   const { selectedIndex } = useContext(TabsContext);
