@@ -42,7 +42,7 @@
   --gs-link-text-decoration-thickness: 0.125rem;
 
   /* Nord overrides */
-  --nord10: #55769e;
+  /* --nord10: #55769e; */
 
   /* Water overrides */
   --background-body: var(--nord6);
@@ -50,10 +50,50 @@
   --button-base: var(--nord3);
   --button-hover: var(--nord10);
   --focus: var(--nord12);
-  --links: var(--nord10);
+  --links: var(--nord1);
   --selection: var(--focus);
   --text-bright: var(--nord3);
   --text-main: var(--nord0);
+}
+
+@font-face {
+  font-family: "fjallaone";
+  src: url("/assets/fonts/fjallaone-regular-webfont.woff2") format("woff2"),
+       url("/assets/fonts/fjallaone-regular-webfont.woff") format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "roboto";
+  src: url("/assets/fonts/roboto-bold-webfont.woff2") format("woff2"),
+       url("/assets/fonts/roboto-bold-webfont.woff") format("woff");
+  font-weight: bold;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "roboto";
+  src: url("/assets/fonts/roboto-italic-webfont.woff2") format("woff2"),
+       url("/assets/fonts/roboto-italic-webfont.woff") format("woff");
+  font-weight: normal;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: "roboto";
+  src: url("/assets/fonts/roboto-regular-webfont.woff2") format("woff2"),
+       url("/assets/fonts/roboto-regular-webfont.woff") format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "roboto-mono";
+  src: url("/assets/fonts/robotomono-regular-webfont.woff2") format("woff2"),
+       url("/assets/fonts/robotomono-regular-webfont.woff") format("woff");
+  font-weight: normal;
+  font-style: normal;
 }
 
 ::selection {
@@ -74,6 +114,7 @@ a {
 
 body {
   box-sizing: border-box;
+  font-family: roboto;
   font-size: var(--gs-font-size);
   max-width: 72rem;
 }
@@ -115,8 +156,18 @@ legend {
   padding-inline: 0.75rem;
 }
 
-:where(h1, h2, h3, h4, h5, h6, legend) {
-  color: var(--nord0);
+h1 {
+  text-transform: uppercase;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: var(--nord1);
+  font-family: fjallaone;
+  font-weight: bold;
+}
+
+:where(code, input, pre) {
+  font-family: roboto-mono;
 }
 
 /* Tabs */
@@ -160,7 +211,6 @@ legend {
   &[aria-selected="true"] {
     background: var(--nord4);
     color: var(--nord0);
-    font-weight: bold;
   }
 
   &:first-child {
@@ -293,7 +343,9 @@ legend {
 
     & > div {
       & > div {
-        background-color: var(--nord8);
+        background-color: var(--nord5);
+        outline: 1px solid var(--nord10);
+        outline-offset: -1px;
         padding-block: 0.5rem;
         text-align: center;
       }
@@ -365,11 +417,6 @@ footer {
       grid-area: code;
     }
   }
-}
-
-/* Best highlight overrides */
-.bh-npm-token.bh-npm-comment {
-  /* filter: brightness(1.625); */
 }
 
 @media screen and (min-width: 48rem) {
