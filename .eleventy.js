@@ -8,6 +8,7 @@ const targets = [
 ];
 const passthroughs = {
   "src/assets/favicons": "assets/favicons",
+  "src/assets/fonts": "assets/fonts",
   "src/assets/vite/css": "assets/css",
   "src/assets/vite/js":  "assets/js",
 };
