@@ -28,7 +28,8 @@ const TabsContext = createContext();
  * @returns {JSX.Element}
  *   The tabs component.
  */
-export default function Tabs({ children,
+export default function Tabs({
+  children,
   className,
   defaultTab = 0,
   heading,

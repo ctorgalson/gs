@@ -3,6 +3,7 @@ import ErrorBoundary from "./ErrorBoundary";
 import GridSystemContext from "./GridSystemContext";
 import GridSettingsForm from "./GridSettingsForm";
 import GridStylesheet from "./GridStylesheet";
+import Tabs from "./Tabs.jsx";
 import GridSystemEqualColumnCells from "./GridSystemEqualColumnCells";
 import GridSystemColumnSpanCells from "./GridSystemColumnSpanCells";
 import Code from "./Code";
@@ -53,25 +54,33 @@ export default function GridSystem({ readOnly = {}, defaultState }) {
         <GridStylesheet />
         <GridSettingsForm />
 
-        <Code
-          className="gs__css"
-          code={gridCss}
-          downloadFilename={`grid--${state.namespace}-${state.columns}.css`}
-          downloadLinkText="Download code"
-          downloadMimeType="text/css"
-          heading={<h2>Generated CSS</h2>}
-          language="css"
-        />
-
-        <GridSystemEqualColumnCells
-          className="gs__html-demo"
-          heading={<h2>Equal-width cells</h2>}
-        />
-
-        <GridSystemColumnSpanCells
-          className="gs__html-demo"
-          heading={<h2>Column-spanning cells</h2>}
-        />
+        <Tabs
+          defaultTab="0"
+          labels={[
+            "Generated CSS",
+            "Equal-width cells",
+            "Column-spanning cells"
+          ]}
+          heading={<h2>Results</h2>}
+        >
+          <Code
+            className="gs__css"
+            code={gridCss}
+            downloadFilename={`grid--${state.namespace}-${state.columns}.css`}
+            downloadLinkText="Download code"
+            downloadMimeType="text/css"
+            heading={<h2>Generated CSS</h2>}
+            language="css"
+          />
+          <GridSystemEqualColumnCells
+            className="gs__html-demo"
+            heading={<h2>Equal-width cells</h2>}
+          />
+          <GridSystemColumnSpanCells
+            className="gs__html-demo"
+            heading={<h2>Column-spanning cells</h2>}
+          />
+        </Tabs>
       </ErrorBoundary>
     </GridSystemContext.Provider>
   ) : null;
