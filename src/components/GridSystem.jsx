@@ -3,7 +3,8 @@ import ErrorBoundary from "./ErrorBoundary";
 import GridSystemContext from "./GridSystemContext";
 import GridSettingsForm from "./GridSettingsForm";
 import GridStylesheet from "./GridStylesheet";
-import GridSystemDemo from "./GridSystemDemo";
+import GridSystemEqualColumnCells from "./GridSystemEqualColumnCells";
+import GridSystemColumnSpanCells from "./GridSystemColumnSpanCells";
 import Code from "./Code";
 import factorizeColumnCount from "../lib/grid/factorizeColumnCount";
 import { gridCssTemplate } from "../lib/grid/gridCssTemplate";
@@ -51,6 +52,7 @@ export default function GridSystem({ readOnly = {}, defaultState }) {
       <ErrorBoundary>
         <GridStylesheet />
         <GridSettingsForm />
+
         <Code
           className="gs__css"
           code={gridCss}
@@ -60,13 +62,15 @@ export default function GridSystem({ readOnly = {}, defaultState }) {
           heading={<h2>Generated CSS</h2>}
           language="css"
         />
-        <GridSystemDemo
-          classname="gs__html"
-          equalColumnClassName="gs__html-demo"
-          equalColumnHeading={<h2>Equal-width cells</h2>}
-          columnSpanClassName="gs__html-demo"
-          columnSpanHeading={<h2>Column-spanning cells</h2>}
-          stylesheetIdSelector="#grid-system-styles"
+
+        <GridSystemEqualColumnCells
+          className="gs__html-demo"
+          heading={<h2>Equal-width cells</h2>}
+        />
+
+        <GridSystemColumnSpanCells
+          className="gs__html-demo"
+          heading={<h2>Column-spanning cells</h2>}
         />
       </ErrorBoundary>
     </GridSystemContext.Provider>
