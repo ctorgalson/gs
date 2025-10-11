@@ -2,7 +2,10 @@ import { useEffect, useRef, useState } from "preact/hooks";
 import ErrorBoundary from "./ErrorBoundary";
 import GridSystemContext from "./GridSystemContext";
 import GridSettingsForm from "./GridSettingsForm";
-import GridSystemDemo from "./GridSystemDemo";
+import GridStylesheet from "./GridStylesheet";
+import Tabs from "./Tabs.jsx";
+import GridSystemEqualColumnCells from "./GridSystemEqualColumnCells";
+import GridSystemColumnSpanCells from "./GridSystemColumnSpanCells";
 import Code from "./Code";
 import factorizeColumnCount from "../lib/grid/factorizeColumnCount";
 import { gridCssTemplate } from "../lib/grid/gridCssTemplate";
@@ -48,24 +51,36 @@ export default function GridSystem({ readOnly = {}, defaultState }) {
       }}
     >
       <ErrorBoundary>
+        <GridStylesheet />
         <GridSettingsForm />
-        <Code
-          className="gs__css"
-          code={gridCss}
-          downloadFilename={`grid--${state.namespace}-${state.columns}.css`}
-          downloadLinkText="Download code"
-          downloadMimeType="text/css"
-          heading={<h2>Generated CSS</h2>}
-          language="css"
-        />
-        <GridSystemDemo
-          classname="gs__html"
-          equalColumnClassName="gs__html-demo"
-          equalColumnHeading={<h2>Equal-width cells</h2>}
-          columnSpanClassName="gs__html-demo"
-          columnSpanHeading={<h2>Column-spanning cells</h2>}
-          stylesheetIdSelector="#grid-system-styles"
-        />
+
+        <Tabs
+          defaultTab="0"
+          labels={[
+            "Generated CSS",
+            "Equal-width cells",
+            "Column-spanning cells"
+          ]}
+          heading={<h2>Results</h2>}
+        >
+          <Code
+            className="gs__css"
+            code={gridCss}
+            downloadFilename={`grid--${state.namespace}-${state.columns}.css`}
+            downloadLinkText="Download code"
+            downloadMimeType="text/css"
+            heading={<h2>Generated CSS</h2>}
+            language="css"
+          />
+          <GridSystemEqualColumnCells
+            className="gs__html-demo"
+            heading={<h2>Equal-width cells</h2>}
+          />
+          <GridSystemColumnSpanCells
+            className="gs__html-demo"
+            heading={<h2>Column-spanning cells</h2>}
+          />
+        </Tabs>
       </ErrorBoundary>
     </GridSystemContext.Provider>
   ) : null;
