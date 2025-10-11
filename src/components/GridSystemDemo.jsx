@@ -1,4 +1,4 @@
-import { useContext, useEffect, useRef } from "preact/hooks";
+import { useContext } from "preact/hooks";
 import clsx from "clsx/lite";
 import ErrorBoundary from "./ErrorBoundary";
 import GridSystemContext from "./GridSystemContext";
@@ -19,7 +19,6 @@ export default function GridSystemDemo({
     <ErrorBoundary>
       <div className={className}>
         {demoHeading}
-        <GridSystemStylesheet />
         <GridSystemEqualColumnCells
           className={equalColumnClassName}
           heading={equalColumnHeading}
@@ -31,21 +30,6 @@ export default function GridSystemDemo({
       </div>
     </ErrorBoundary>
   );
-}
-
-function GridSystemStylesheet() {
-  const { gridCss } = useContext(GridSystemContext);
-  const styleRef = useRef(null);
-
-  useEffect(() => {
-    if (!styleRef.current) {
-      const style = document.createElement("style");
-      document.head.appendChild(style);
-      styleRef.current = style;
-    }
-
-    styleRef.current.textContent = gridCss;
-  }, [gridCss]);
 }
 
 function GridSystemEqualColumnCells({ className, heading }) {

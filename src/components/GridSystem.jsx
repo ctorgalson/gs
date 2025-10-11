@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "preact/hooks";
 import ErrorBoundary from "./ErrorBoundary";
 import GridSystemContext from "./GridSystemContext";
 import GridSettingsForm from "./GridSettingsForm";
+import GridStylesheet from "./GridStylesheet";
 import GridSystemDemo from "./GridSystemDemo";
 import Code from "./Code";
 import factorizeColumnCount from "../lib/grid/factorizeColumnCount";
@@ -48,6 +49,7 @@ export default function GridSystem({ readOnly = {}, defaultState }) {
       }}
     >
       <ErrorBoundary>
+        <GridStylesheet />
         <GridSettingsForm />
         <Code
           className="gs__css"
