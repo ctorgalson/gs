@@ -1,4 +1,5 @@
 import { useContext, useEffect, useRef } from "preact/hooks";
+import ErrorBoundary from "./ErrorBoundary";
 import GridSystemContext from "./GridSystemContext";
 
 /**
@@ -10,6 +11,14 @@ import GridSystemContext from "./GridSystemContext";
  * @returns {null} This component doesn't render any visible output.
  */
 export default function GridStylesheet() {
+  return (
+    <ErrorBoundary>
+      <GridStylesheetInner />
+    </ErrorBoundary>
+  );
+}
+
+function GridStylesheetInner() {
   const { gridCss } = useContext(GridSystemContext);
   const styleRef = useRef(null);
 
