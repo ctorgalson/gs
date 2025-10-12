@@ -11,6 +11,8 @@ const passthroughs = {
   "src/assets/fonts": "assets/fonts",
   "src/assets/vite/css": "assets/css",
   "src/assets/vite/js":  "assets/js",
+  "src/robots.txt": "robots.txt",
+  "src/humans.txt": "humans.txt",
 };
 
 export default async function (eleventyConfig) {
