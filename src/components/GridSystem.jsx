@@ -73,24 +73,24 @@ export default function GridSystem({ readOnly = {}, defaultState }) {
             downloadFilename={`grid--${state.namespace}-${state.columns}.css`}
             downloadLinkText="Download code"
             downloadMimeType="text/css"
-            heading={<h2>Generated CSS</h2>}
+            heading={<h3>Generated CSS</h3>}
             language="css"
           />
           <GridSystemEqualColumnCells
             className="gs__html-demo"
-            heading={<h2>Equal-width cells</h2>}
+            heading={<h3>Equal-width cells</h3>}
           />
           <GridSystemColumnSpanCells
             className="gs__html-demo"
-            heading={<h2>Column-spanning cells</h2>}
+            heading={<h3>Column-spanning cells</h3>}
           />
           <GridSystemCenteredCells
             className="gs__html-demo"
-            heading={<h2>Centered cells</h2>}
+            heading={<h3>Centered cells</h3>}
           />
           <GridSystemEndAlignedCells
             className="gs__html-demo"
-            heading={<h2>End-aligned cells</h2>}
+            heading={<h3>End-aligned cells</h3>}
           />
         </Tabs>
       </ErrorBoundary>
