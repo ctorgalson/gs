@@ -6,6 +6,8 @@ import GridStylesheet from "./GridStylesheet";
 import Tabs from "./Tabs.jsx";
 import GridSystemEqualColumnCells from "./GridSystemEqualColumnCells";
 import GridSystemColumnSpanCells from "./GridSystemColumnSpanCells";
+import GridSystemCenteredCells from "./GridSystemCenteredCells";
+import GridSystemEndAlignedCells from "./GridSystemEndAlignedCells";
 import Code from "./Code";
 import factorizeColumnCount from "../lib/grid/factorizeColumnCount";
 import { gridCssTemplate } from "../lib/grid/gridCssTemplate";
@@ -59,7 +61,9 @@ export default function GridSystem({ readOnly = {}, defaultState }) {
           labels={[
             "Generated CSS",
             "Equal-width cells",
-            "Column-spanning cells"
+            "Column-spanning cells",
+            "Centered cells",
+            "End-aligned cells",
           ]}
           heading={<h2>Results</h2>}
         >
@@ -79,6 +83,14 @@ export default function GridSystem({ readOnly = {}, defaultState }) {
           <GridSystemColumnSpanCells
             className="gs__html-demo"
             heading={<h2>Column-spanning cells</h2>}
+          />
+          <GridSystemCenteredCells
+            className="gs__html-demo"
+            heading={<h2>Centered cells</h2>}
+          />
+          <GridSystemEndAlignedCells
+            className="gs__html-demo"
+            heading={<h2>End-aligned cells</h2>}
           />
         </Tabs>
       </ErrorBoundary>

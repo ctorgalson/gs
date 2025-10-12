@@ -2,7 +2,7 @@ import { useContext } from "preact/hooks";
 import clsx from "clsx/lite";
 import ErrorBoundary from "./ErrorBoundary";
 import GridSystemContext from "./GridSystemContext";
-import { computeEcSelector } from "../lib/grid/gridCssTemplate";
+import { computeCsSelector } from "../lib/grid/gridCssTemplate";
 
 /**
  * Displays a fraction as a superscript numerator and subscript denominator.
@@ -26,10 +26,10 @@ function Fraction({ numerator, denominator }) {
 }
 
 /**
- * Renders a demo of equal-width column cells.
+ * Renders a demo of centered cells.
  *
- * Displays rows of equal-width cells for each factor of the grid's column count.
- * Each cell shows its position as a fraction of the total columns.
+ * Displays rows showing all possible column span combinations that add up to
+ * the total column count. Each cell shows its span as a fraction of total columns.
  *
  * @param {Object} props
  *   Component props.
@@ -39,29 +39,29 @@ function Fraction({ numerator, denominator }) {
  *   Optional heading element to display above the demo.
  *
  * @returns {JSX.Element}
- *   The equal-column cells demo.
+ *   The column-spanning cells demo.
  */
-export default function GridSystemEqualColumnCells({ className, heading }) {
-  const { factors, state } = useContext(GridSystemContext);
-  const { namespace } = state;
+export default function GridSystemCenteredCells({ className, heading }) {
+  const { state } = useContext(GridSystemContext);
+  const { columns, namespace } = state;
 
   return (
     <ErrorBoundary>
       <div className={clsx(className)}>
         {heading}
         <div tabindex="0">
-          {factors.map((factor) => (
-            <div
-              className={clsx(
-                namespace,
-                computeEcSelector(namespace, factor, false),
-              )}
-            >
-              {Array.from({length: factor}, (_, index) => (
-                <div><Fraction numerator={index + 1} denominator={factor} /></div>
-              ))}
-            </div>
-          ))}
+          {Array.from({ length: columns - 3 }, (_, index) => {
+            const span = index + 1;
+            const selector = computeCsSelector(namespace, span, false);
+
+            return (
+              <div className={namespace}>
+                <div className={clsx(selector, "gs__ac")}>
+                  <Fraction numerator={span} denominator={columns} />
+                </div>
+              </div>
+            );
+          })}
         </div>
       </div>
     </ErrorBoundary>
