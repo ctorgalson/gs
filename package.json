@@ -17,12 +17,10 @@
     "clsx": "^2.1.1",
     "concurrently": "^9.2.1",
     "dedent": "^1.7.0",
+    "lz-string": "^1.5.0",
+    "preact": "^10.27.2",
     "vite": "^7.1.6",
     "vite-bundle-analyzer": "^1.2.3",
     "water.css": "^2.1.1"
-  },
-  "dependencies": {
-    "lz-string": "^1.5.0",
-    "preact": "^10.27.2"
   }
 }
