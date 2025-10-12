@@ -11,15 +11,22 @@ import GridSystemEndAlignedCells from "./GridSystemEndAlignedCells";
 import Code from "./Code";
 import factorizeColumnCount from "../lib/grid/factorizeColumnCount";
 import { gridCssTemplate } from "../lib/grid/gridCssTemplate";
+import { compressState, decompressState } from "../lib/urlState";
 import "water.css/out/water.min.css";
 import "../assets/css/styles.css";
 
 export default function GridSystem({ readOnly = {}, defaultState }) {
-  const [state, setState] = useState(() => ({
-    ...defaultState,
-    ...Object.fromEntries(new URLSearchParams(window.location.search)),
-    ...readOnly,
-  }));
+  const [state, setState] = useState(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const compressed = urlParams.get("q");
+    const urlState = compressed ? decompressState(compressed) : {};
+
+    return {
+      ...defaultState,
+      ...(urlState || {}),
+      ...readOnly,
+    };
+  });
   const [gridCss, setGridCss] = useState(undefined);
   const [factors, setFactors] = useState(undefined);
   const firstRender = useRef(true);
@@ -27,7 +34,7 @@ export default function GridSystem({ readOnly = {}, defaultState }) {
   useEffect(() => {
     const factors = factorizeColumnCount(state.columns);
     const gridCss = gridCssTemplate(state, factors);
-    let urlParams;
+    let compressed;
     let newUrl;
 
     setFactors(factors);
@@ -36,8 +43,8 @@ export default function GridSystem({ readOnly = {}, defaultState }) {
     if (firstRender.current) {
       firstRender.current = false;
     } else {
-      urlParams = new URLSearchParams(state);
-      newUrl = `${window.location.pathname}?${urlParams.toString()}`;
+      compressed = compressState(state);
+      newUrl = `${window.location.pathname}?q=${compressed}`;
       window.history.replaceState({}, "", newUrl);
     }
   }, [state]);
