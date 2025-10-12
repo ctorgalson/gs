@@ -2,28 +2,8 @@ import { useContext } from "preact/hooks";
 import clsx from "clsx/lite";
 import ErrorBoundary from "./ErrorBoundary";
 import GridSystemContext from "./GridSystemContext";
+import Fraction from "./Fraction";
 import { computeCsSelector } from "../lib/grid/gridCssTemplate";
-
-/**
- * Displays a fraction as a superscript numerator and subscript denominator.
- *
- * @param {Object} props
- *   Component props.
- * @param {number} props.numerator
- *   The numerator value.
- * @param {number} props.denominator
- *   The denominator value.
- *
- * @returns {JSX.Element}
- *   The formatted fraction.
- */
-function Fraction({ numerator, denominator }) {
-  return (
-    <>
-      <sup>{numerator}</sup> / <sub>{denominator}</sub>
-    </>
-  );
-}
 
 /**
  * Renders a demo of column-spanning cells.

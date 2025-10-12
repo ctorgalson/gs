@@ -2,28 +2,8 @@ import { useContext } from "preact/hooks";
 import clsx from "clsx/lite";
 import ErrorBoundary from "./ErrorBoundary";
 import GridSystemContext from "./GridSystemContext";
+import Fraction from "./Fraction";
 import { computeCsSelector } from "../lib/grid/gridCssTemplate";
-
-/**
- * Displays a fraction as a superscript numerator and subscript denominator.
- *
- * @param {Object} props
- *   Component props.
- * @param {number} props.numerator
- *   The numerator value.
- * @param {number} props.denominator
- *   The denominator value.
- *
- * @returns {JSX.Element}
- *   The formatted fraction.
- */
-function Fraction({ numerator, denominator }) {
-  return (
-    <>
-      <sup>{numerator}</sup> / <sub>{denominator}</sub>
-    </>
-  );
-}
 
 /**
  * Renders a demo of column-spanning cells.
@@ -50,16 +30,13 @@ export default function GridSystemEndAlignedCells({ className, heading }) {
       <div className={clsx(className)}>
         {heading}
         <div tabindex="0">
-          {Array.from({ length: columns - 5 }, (_, index) => {
-            const span1 = index + 1;
-            const selector1 = computeCsSelector(namespace, span1, false);
-            const span2 = parseInt(columns, 10) - span1 - 4;
-            const selector2 = computeCsSelector(namespace, span2, false);
+          {Array.from({ length: columns - 1 }, (_, index) => {
+            const span = index + 1;
+            const selector = computeCsSelector(namespace, span, false);
 
             return (
               <div className={namespace}>
-                <div className={selector1}><Fraction numerator={span1} denominator={columns} /></div>
-                {span2 ? (<div className={clsx(selector2, "gs__ae")}><Fraction numerator={span2} denominator={columns} /></div>) : ""}
+                <div className={clsx(selector, "gs__ae")}><Fraction numerator={span} denominator={columns} /></div>
               </div>
             );
           })}
