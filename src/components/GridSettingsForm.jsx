@@ -77,7 +77,12 @@ const fieldsetData = [
 const tabData = fieldsetData.map((f) => f.legend);
 
 export default function GridSettingsForm() {
-  const { defaultState, setState } = useContext(GridSystemContext);
+  const { firstRender, defaultState, setState } = useContext(GridSystemContext);
+  const resetForm = () => {
+    window.history.replaceState({}, "", "/");
+    firstRender.current = true;
+    setState(defaultState);
+  };
 
   return (
     <>
@@ -97,7 +102,7 @@ export default function GridSettingsForm() {
         </Tabs>
         <button
           className="gs__form-reset"
-          onClick={() => setState(defaultState)}
+          onClick={resetForm}
           type="button"
         >
           Reset
