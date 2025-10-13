@@ -256,6 +256,13 @@ h1, h2, h3, h4, h5, h6 {
   }
 }
 
+.gs__form-reset {
+  box-shadow: var(--gs-box-shadow);
+  display: block;
+  margin-block: 1rem 0;
+  margin-inline: auto 0;
+}
+
 /* Code */
 .gs__css {
   ul {

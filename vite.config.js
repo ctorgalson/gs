@@ -13,6 +13,9 @@ export default defineConfig({
         chunkFileNames: "js/[name]-[hash].js",
         assetFileNames: "css/[name]-[hash].[ext]",
       },
+      external: [
+        /^\/assets\/fonts\/.*/
+      ],
     },
   },
 });

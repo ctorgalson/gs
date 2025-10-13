@@ -52,6 +52,7 @@ export default function GridSystem({ readOnly = {}, defaultState }) {
   return gridCss ? (
     <GridSystemContext.Provider
       value={{
+        defaultState,
         factors,
         gridCss,
         readOnly,
@@ -62,7 +63,6 @@ export default function GridSystem({ readOnly = {}, defaultState }) {
       <ErrorBoundary>
         <GridStylesheet />
         <GridSettingsForm />
-
         <Tabs
           defaultTab="0"
           labels={[
