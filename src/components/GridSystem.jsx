@@ -54,10 +54,11 @@ export default function GridSystem({ readOnly = {}, defaultState }) {
       value={{
         defaultState,
         factors,
+        firstRender,
         gridCss,
         readOnly,
-        state,
         setState,
+        state,
       }}
     >
       <ErrorBoundary>
