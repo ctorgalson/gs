@@ -77,6 +77,8 @@ const fieldsetData = [
 const tabData = fieldsetData.map((f) => f.legend);
 
 export default function GridSettingsForm() {
+  const { defaultState, setState } = useContext(GridSystemContext);
+
   return (
     <>
       <form className="gs__form">
@@ -93,6 +95,13 @@ export default function GridSettingsForm() {
             </GridSettingsFieldset>
           ))}
         </Tabs>
+        <button
+          className="gs__form-reset"
+          onClick={() => setState(defaultState)}
+          type="button"
+        >
+          Reset
+        </button>
       </form>
     </>
   );
@@ -108,7 +117,7 @@ export function GridSettingsField({
   step = null,
   type = "text",
 }) {
-  const { readOnly, state, setState } = useContext(GridSystemContext);
+  const { state, setState } = useContext(GridSystemContext);
   const updateField = (name, value) => {
     setState((prev) => ({ ...prev, [name]: value }));
   };
