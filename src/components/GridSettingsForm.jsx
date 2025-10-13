@@ -1,4 +1,5 @@
 import { useContext } from "preact/hooks";
+import ErrorBoundary from "./ErrorBoundary";
 import GridSystemContext from "./GridSystemContext";
 import Tabs from "./Tabs";
 import GridSettingsFieldset from "./GridSettingsFieldset";
@@ -85,7 +86,7 @@ export default function GridSettingsForm() {
   };
 
   return (
-    <>
+    <ErrorBoundary>
       <form className="gs__form">
         <Tabs
           defaultTab="1"
@@ -108,7 +109,7 @@ export default function GridSettingsForm() {
           Reset
         </button>
       </form>
-    </>
+    </ErrorBoundary>
   );
 }
 
